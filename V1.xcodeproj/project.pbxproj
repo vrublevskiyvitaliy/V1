@@ -72,10 +72,8 @@
 		F16241CB1E5AD7F30087E711 /* V1 */ = {
 			isa = PBXGroup;
 			children = (
-				F16241E61E5AE2620087E711 /* shader.cpp */,
-				F16241E71E5AE2620087E711 /* shader.hpp */,
-				F16241EB1E5AEADF0087E711 /* ColorFragmentShader.fragmentshader */,
-				F16241EC1E5AEADF0087E711 /* TransformVertexShader.vertexshader */,
+				F16241EE1E5AECCB0087E711 /* common */,
+				F16241ED1E5AECC30087E711 /* shader */,
 				F16241CC1E5AD7F30087E711 /* main.cpp */,
 			);
 			path = V1;
@@ -89,6 +87,24 @@
 				F16241DC1E5AD8900087E711 /* OpenGL.framework */,
 			);
 			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		F16241ED1E5AECC30087E711 /* shader */ = {
+			isa = PBXGroup;
+			children = (
+				F16241EB1E5AEADF0087E711 /* ColorFragmentShader.fragmentshader */,
+				F16241EC1E5AEADF0087E711 /* TransformVertexShader.vertexshader */,
+			);
+			name = shader;
+			sourceTree = "<group>";
+		};
+		F16241EE1E5AECCB0087E711 /* common */ = {
+			isa = PBXGroup;
+			children = (
+				F16241E61E5AE2620087E711 /* shader.cpp */,
+				F16241E71E5AE2620087E711 /* shader.hpp */,
+			);
+			name = common;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
