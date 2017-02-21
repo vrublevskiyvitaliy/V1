@@ -13,6 +13,7 @@ GLFWwindow* window;
 // Include GLM
 #include <glm/glm.hpp>
 #include <glm/gtc/matrix_transform.hpp>
+#include <glm/gtc/type_ptr.hpp>
 using namespace glm;
 
 #include "shader.hpp"
@@ -80,7 +81,8 @@ int main( void )
     
     // Get a handle for our buffers
     GLuint vsiPosition = glGetAttribLocation(programID, "vsiPosition");
-
+    GLuint pointPositions = glGetUniformLocation(programID, "pointPositions");
+    
     // Model matrix : an identity matrix (model will be at the origin)
     glm::mat4 Model      = glm::mat4(1.0f);
     // Our ModelViewProjection : multiplication of our 3 matrices
@@ -92,6 +94,22 @@ int main( void )
         1.0f, -1.0f, 0.0f,
         1.0f,  1.0f, 0.0f,
         -1.0f,  1.0f, 0.0f,
+    };
+    
+    int numberOfPoints = 11;
+    
+    glm::vec3 pointNodePositions[] = {
+        glm::vec3(-1.0f, -1.0f, 0.0f),
+        glm::vec3(1.0f, -1.0f, 0.0f),
+        glm::vec3(0.0f,  1.0f, 0.0f),
+        glm::vec3(1.0f,  1.0f, 0.0f),
+        glm::vec3(0.0f,  0.0f, 0.0f),
+        glm::vec3(0.3f,  -0.5f, 0.0f),
+        glm::vec3(0.0f,  -0.3f, 0.0f),
+        glm::vec3(0.1f,  0.2f, 0.0f),
+        glm::vec3(0.0f,  0.8f, 0.0f),
+        glm::vec3(-0.3f,  0.1f, 0.0f),
+        glm::vec3(-2.0f,  -0.9f, 0.0f)
     };
     
     GLuint vertexbuffer;
@@ -110,6 +128,8 @@ int main( void )
         // Send our transformation to the currently bound shader,
         // in the "MVP" uniform
         glUniformMatrix4fv(MatrixID, 1, GL_FALSE, &MVP[0][0]);
+        
+        glUniform3fv(pointPositions, numberOfPoints, glm::value_ptr(pointNodePositions[0]));
         
         // 1rst attribute buffer : vertices
         glEnableVertexAttribArray(vsiPosition);

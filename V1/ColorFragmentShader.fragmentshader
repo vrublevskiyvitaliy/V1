@@ -1,26 +1,16 @@
 #version 120
 
+const int numberOfPoints = 11;
+
 varying vec3 vsoPosition;
+uniform vec3 pointPositions[numberOfPoints];
 
 void main(void) {
     int i, c=0;
     
-    vec3 cellPoints[100];
-    cellPoints[0] = vec3(-1.0f, -1.0f, 0.0f);
-    cellPoints[1] = vec3(1.0f, -1.0f, 0.0f);
-    cellPoints[2] = vec3(0.0f,  1.0f, 0.0f);
-    cellPoints[3] = vec3(1.0f,  1.0f, 0.0f);
-    cellPoints[4] = vec3(0.0f,  0.0f, 0.0f);
-    cellPoints[5] = vec3(0.3f,  -0.5f, 0.0f);
-    cellPoints[6] = vec3(0.1f,  0.2f, 0.0f);
-    cellPoints[7] = vec3(0.0f,  -0.3f, 0.0f);
-    cellPoints[8] = vec3(0.0f,  0.8f, 0.0f);
-    cellPoints[9] = vec3(-0.3f,  0.1f, 0.0f);
-    cellPoints[10] = vec3(-2.0f,  -0.9f, 0.0f);
-    
-    float min = length(cellPoints[0] - vsoPosition), l;
-    for(i = 1; i < 11; i++){
-        l = length(vsoPosition - cellPoints[i]);
+    float min = length(pointPositions[0] - vsoPosition), l;
+    for(i = 1; i < numberOfPoints; i++){
+        l = length(vsoPosition - pointPositions[i]);
         if (l < min){ min = l; c = i;}
     }
 
