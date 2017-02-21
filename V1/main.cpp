@@ -68,10 +68,16 @@ int init()
     return 0;
 }
 
-//return value from -1 to +1
+//return value from 0 to 1
 float getRandom()
 {
-    float r = static_cast <float> (rand()) / static_cast <float> (RAND_MAX);
+    return static_cast <float> (rand()) / static_cast <float> (RAND_MAX);
+}
+
+//return value from -1 to +1
+float getRandomPosition()
+{
+    float r = getRandom();
     r = r*2 - 1;
     return r;
 }
@@ -79,7 +85,7 @@ float getRandom()
 //return value from -0.001 to +0.001
 float getRandomMove()
 {
-    float r = static_cast <float> (rand()) / static_cast <float> (RAND_MAX);
+    float r = getRandom();
     r = r / 1000;
     r = r *2 - 0.001;
     return r;
@@ -105,6 +111,7 @@ int main( void )
     // Get a handle for our buffers
     GLuint vsiPosition = glGetAttribLocation(programID, "vsiPosition");
     GLuint pointPositions = glGetUniformLocation(programID, "pointPositions");
+    GLuint pointColors = glGetUniformLocation(programID, "pointColors");
     
     // Model matrix : an identity matrix (model will be at the origin)
     glm::mat4 Model      = glm::mat4(1.0f);
@@ -122,16 +129,22 @@ int main( void )
     
     glm::vec3 pointNodePositions[numberOfPoints];
     glm::vec3 pointNodeMoves[numberOfPoints];
+    glm::vec3 pointNodeColors[numberOfPoints];
+
 
     for (int i = 0; i < numberOfPoints; i++ )
     {
-        pointNodePositions[i].x = getRandom();
-        pointNodePositions[i].y = getRandom();
+        pointNodePositions[i].x = getRandomPosition();
+        pointNodePositions[i].y = getRandomPosition();
         pointNodePositions[i].z = 0;
         
         pointNodeMoves[i].x = getRandomMove();
         pointNodeMoves[i].y = getRandomMove();
         pointNodeMoves[i].z = 0;
+        
+        pointNodeColors[i].x = getRandom();
+        pointNodeColors[i].y = getRandom();
+        pointNodeColors[i].z = getRandom();
     }
 
     
@@ -167,6 +180,7 @@ int main( void )
         }
         
         glUniform3fv(pointPositions, numberOfPoints, glm::value_ptr(pointNodePositions[0]));
+        glUniform3fv(pointColors, numberOfPoints, glm::value_ptr(pointNodeColors[0]));
         
         // 1rst attribute buffer : vertices
         glEnableVertexAttribArray(vsiPosition);

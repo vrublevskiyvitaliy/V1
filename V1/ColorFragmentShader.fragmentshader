@@ -4,6 +4,7 @@ const int numberOfPoints = 11;
 
 varying vec3 vsoPosition;
 uniform vec3 pointPositions[numberOfPoints];
+uniform vec3 pointColors[numberOfPoints];
 
 void main(void) {
     int i, c=0;
@@ -15,7 +16,7 @@ void main(void) {
     }
 
     gl_FragColor = length(min) > 0.01
-        ? vec4(vec3(1.0f/(c+1)), 1.0)
+        ? vec4(pointColors[c], 1.0)
         : vec4(1.,0,0, 1.0);
     
 }
