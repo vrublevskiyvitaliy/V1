@@ -1,16 +1,5 @@
 #version 120
 
-// Interpolated values from the vertex shaders
-//varying vec3 fragmentColor;
-//
-//void main(){
-//
-//	// Output color = color specified in the vertex shader,
-//	// interpolated between all 3 surrounding vertices
-//	gl_FragColor = vec4(fragmentColor, 1);
-//
-//}
-//uniform float rand;
 varying vec3 vsoPosition;
 
 void main(void) {
@@ -34,14 +23,7 @@ void main(void) {
         l = length(vsoPosition - cellPoints[i]);
         if (l < min){ min = l; c = i;}
     }
-    //fragColor = vec4(vec3(0.95, 0.3, 0.3) + vec3(1.0, 1.0, 0.0) * (min)*2, 1.0);
-    //min = 1;
-    //gl_FragColor = vec4(vec3(0.95, 0.3, 0.3) + vec3(1.0, 1.0, 0.0) * (min)*2, 1.0);
-    // gl_FragColor = vec4(vec3(0.1, 0.1, 0.1)* (c)*2, 1.0);
-    //gl_FragColor = vec4(vec3(length(vsoPosition - cell[3])), 1.0);
+
     gl_FragColor = length(min) > 0.01 ? vec4(vec3(1.0f/(c+1)), 1.0) : vec4(1.,0,0, 1.0);
     
-    
-    
-    //gl_FragColor = vec4(vsoPosition, 1.0);
 }
