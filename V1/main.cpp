@@ -68,6 +68,7 @@ int init()
     return 0;
 }
 
+//return value from -1 to +1
 float getRandom()
 {
     float r = static_cast <float> (rand()) / static_cast <float> (RAND_MAX);
@@ -75,6 +76,14 @@ float getRandom()
     return r;
 }
 
+//return value from -0.001 to +0.001
+float getRandomMove()
+{
+    float r = static_cast <float> (rand()) / static_cast <float> (RAND_MAX);
+    r = r / 1000;
+    r = r *2 - 0.001;
+    return r;
+}
 
 int main( void )
 {
@@ -112,12 +121,17 @@ int main( void )
     
     
     glm::vec3 pointNodePositions[numberOfPoints];
-    
+    glm::vec3 pointNodeMoves[numberOfPoints];
+
     for (int i = 0; i < numberOfPoints; i++ )
     {
         pointNodePositions[i].x = getRandom();
         pointNodePositions[i].y = getRandom();
         pointNodePositions[i].z = 0;
+        
+        pointNodeMoves[i].x = getRandomMove();
+        pointNodeMoves[i].y = getRandomMove();
+        pointNodeMoves[i].z = 0;
     }
 
     
@@ -126,6 +140,7 @@ int main( void )
     glBindBuffer(GL_ARRAY_BUFFER, vertexbuffer);
     glBufferData(GL_ARRAY_BUFFER, sizeof(g_vertex_buffer_data), g_vertex_buffer_data, GL_STATIC_DRAW);
     
+    int counter = 0;
     do{
         
         // Clear the screen
@@ -137,6 +152,19 @@ int main( void )
         // Send our transformation to the currently bound shader,
         // in the "MVP" uniform
         glUniformMatrix4fv(MatrixID, 1, GL_FALSE, &MVP[0][0]);
+        
+        // apply random move
+        for (int i = 0; i < numberOfPoints; i++ )
+        {
+            pointNodePositions[i] += pointNodeMoves[i];
+        }
+        
+        counter = counter == 1000 ? 0 : ++counter;
+        for (int i = 0; i < numberOfPoints && counter == 0; i++ )
+        {
+            pointNodeMoves[i].x = getRandomMove();
+            pointNodeMoves[i].y = getRandomMove();
+        }
         
         glUniform3fv(pointPositions, numberOfPoints, glm::value_ptr(pointNodePositions[0]));
         
