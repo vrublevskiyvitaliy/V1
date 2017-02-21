@@ -172,6 +172,23 @@ int main( void )
             pointNodePositions[i] += pointNodeMoves[i];
         }
         
+        // check if we in area
+        for (int i = 0; i < numberOfPoints; i++ )
+        {
+            pointNodePositions[i].x = pointNodePositions[i].x > 1
+                ? pointNodePositions[i].x - 2
+                : pointNodePositions[i].x;
+            pointNodePositions[i].y = pointNodePositions[i].y > 1
+                ? pointNodePositions[i].y - 2
+                : pointNodePositions[i].y;
+            pointNodePositions[i].x = pointNodePositions[i].x < -1
+                ? pointNodePositions[i].x + 2
+                : pointNodePositions[i].x;
+            pointNodePositions[i].y = pointNodePositions[i].y < -1
+                ? pointNodePositions[i].y + 2
+                : pointNodePositions[i].y;
+        }
+        
         counter = counter == 1000 ? 0 : ++counter;
         for (int i = 0; i < numberOfPoints && counter == 0; i++ )
         {
