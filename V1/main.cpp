@@ -1,6 +1,7 @@
 // Include standard headers
 #include <stdio.h>
 #include <stdlib.h>
+#include <time.h>
 #include <iostream>
 
 // Include GLEW
@@ -17,6 +18,8 @@ GLFWwindow* window;
 using namespace glm;
 
 #include "shader.hpp"
+
+const int numberOfPoints = 11;
 
 int init()
 {
@@ -65,9 +68,20 @@ int init()
     return 0;
 }
 
+float getRandom()
+{
+    float r = static_cast <float> (rand()) / static_cast <float> (RAND_MAX);
+    r = r*2 - 1;
+    return r;
+}
+
 
 int main( void )
 {
+    // for random points
+    time_t t;
+    srand((unsigned) time(&t));
+    
     int code = init();
     if (code) {
         return code;
@@ -96,21 +110,16 @@ int main( void )
         -1.0f,  1.0f, 0.0f,
     };
     
-    int numberOfPoints = 11;
     
-    glm::vec3 pointNodePositions[] = {
-        glm::vec3(-1.0f, -1.0f, 0.0f),
-        glm::vec3(1.0f, -1.0f, 0.0f),
-        glm::vec3(0.0f,  1.0f, 0.0f),
-        glm::vec3(1.0f,  1.0f, 0.0f),
-        glm::vec3(0.0f,  0.0f, 0.0f),
-        glm::vec3(0.3f,  -0.5f, 0.0f),
-        glm::vec3(0.0f,  -0.3f, 0.0f),
-        glm::vec3(0.1f,  0.2f, 0.0f),
-        glm::vec3(0.0f,  0.8f, 0.0f),
-        glm::vec3(-0.3f,  0.1f, 0.0f),
-        glm::vec3(-2.0f,  -0.9f, 0.0f)
-    };
+    glm::vec3 pointNodePositions[numberOfPoints];
+    
+    for (int i = 0; i < numberOfPoints; i++ )
+    {
+        pointNodePositions[i].x = getRandom();
+        pointNodePositions[i].y = getRandom();
+        pointNodePositions[i].z = 0;
+    }
+
     
     GLuint vertexbuffer;
     glGenBuffers(1, &vertexbuffer);

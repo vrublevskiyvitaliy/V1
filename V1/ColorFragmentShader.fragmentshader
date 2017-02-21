@@ -14,6 +14,8 @@ void main(void) {
         if (l < min){ min = l; c = i;}
     }
 
-    gl_FragColor = length(min) > 0.01 ? vec4(vec3(1.0f/(c+1)), 1.0) : vec4(1.,0,0, 1.0);
+    gl_FragColor = length(min) > 0.01
+        ? vec4(vec3(1.0f/(c+1)), 1.0)
+        : vec4(1.,0,0, 1.0);
     
 }
