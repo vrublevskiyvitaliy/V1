@@ -1,6 +1,6 @@
 #version 120
 
-const int numberOfPoints = 11;
+const int numberOfPoints = 100;
 
 varying vec3 vsoPosition;
 uniform vec3 pointPositions[numberOfPoints];

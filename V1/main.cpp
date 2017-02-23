@@ -19,7 +19,7 @@ using namespace glm;
 
 #include "shader.hpp"
 
-const int numberOfPoints = 11;
+const int numberOfPoints = 100;
 
 int init()
 {
@@ -86,8 +86,8 @@ float getRandomPosition()
 float getRandomMove()
 {
     float r = getRandom();
-    r = r / 1000;
-    r = r *2 - 0.001;
+    r = r / 500;
+    r = r *2 - 0.002;
     return r;
 }
 
