@@ -91,6 +91,29 @@ float getRandomMove()
     return r;
 }
 
+glm::vec3 getMousePosition(GLFWwindow* window)
+{
+    double xpos, ypos;
+    glfwGetCursorPos(window, &xpos, &ypos);
+    
+    int xSize = 1024, ySize = 768;
+    
+    glfwGetWindowSize(window, &xSize, &ySize);
+    
+    glm::vec3 mouse;
+
+    mouse.x = ( xpos * 2.0 ) / ( xSize ) - 1;
+    mouse.y = ( ypos * 2.0 ) / ( ySize) - 1;
+    
+    // invert y
+    // because glfwGetCursorPos return position from upper-left corner
+    mouse.y = - mouse.y;
+
+    mouse.z = 0;
+    
+    return mouse;
+}
+
 int main( void )
 {
     // for random points
@@ -188,6 +211,9 @@ int main( void )
                 ? pointNodePositions[i].y + 2
                 : pointNodePositions[i].y;
         }
+        
+        // our mouse
+        pointNodePositions[numberOfPoints - 1] = getMousePosition(window);
         
         counter = counter == 1000 ? 0 : ++counter;
         for (int i = 0; i < numberOfPoints && counter == 0; i++ )
