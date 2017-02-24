@@ -18,7 +18,7 @@ GLFWwindow* window;
 using namespace glm;
 
 #include "shader.hpp"
-#include "RandomClass.hpp"
+#include "Points.hpp"
 
 const int numberOfPoints = 100;
 
@@ -74,6 +74,7 @@ glm::vec3 getMousePosition(GLFWwindow* window)
     double xpos, ypos;
     glfwGetCursorPos(window, &xpos, &ypos);
     
+    
     int xSize = 1024, ySize = 768;
     
     glfwGetWindowSize(window, &xSize, &ySize);
@@ -94,7 +95,7 @@ glm::vec3 getMousePosition(GLFWwindow* window)
 
 int main( void )
 {
-    Random random;
+//    Random random;
     
     int code = init();
     if (code) {
@@ -125,27 +126,10 @@ int main( void )
         -1.0f,  1.0f, 0.0f,
     };
     
-    
-    glm::vec3 pointNodePositions[numberOfPoints];
-    glm::vec3 pointNodeMoves[numberOfPoints];
-    glm::vec3 pointNodeColors[numberOfPoints];
+    glm::vec3 * pointNodePositions;
+    glm::vec3 * pointNodeColors;
 
-
-    for (int i = 0; i < numberOfPoints; i++ )
-    {
-        pointNodePositions[i].x = random.getRandomPosition();
-        pointNodePositions[i].y = random.getRandomPosition();
-        pointNodePositions[i].z = 0;
-        
-        pointNodeMoves[i].x = random.getRandomMove();
-        pointNodeMoves[i].y = random.getRandomMove();
-        pointNodeMoves[i].z = 0;
-        
-        pointNodeColors[i].x = random.getRandom();
-        pointNodeColors[i].y = random.getRandom();
-        pointNodeColors[i].z = random.getRandom();
-    }
-
+    Points points(numberOfPoints);
     
     GLuint vertexbuffer;
     glGenBuffers(1, &vertexbuffer);
@@ -165,38 +149,12 @@ int main( void )
         // in the "MVP" uniform
         glUniformMatrix4fv(MatrixID, 1, GL_FALSE, &MVP[0][0]);
         
-        // apply random move
-        for (int i = 0; i < numberOfPoints; i++ )
-        {
-            pointNodePositions[i] += pointNodeMoves[i];
-        }
+        points.applyMove();
         
-        // check if we in area
-        for (int i = 0; i < numberOfPoints; i++ )
-        {
-            pointNodePositions[i].x = pointNodePositions[i].x > 1
-                ? pointNodePositions[i].x - 2
-                : pointNodePositions[i].x;
-            pointNodePositions[i].y = pointNodePositions[i].y > 1
-                ? pointNodePositions[i].y - 2
-                : pointNodePositions[i].y;
-            pointNodePositions[i].x = pointNodePositions[i].x < -1
-                ? pointNodePositions[i].x + 2
-                : pointNodePositions[i].x;
-            pointNodePositions[i].y = pointNodePositions[i].y < -1
-                ? pointNodePositions[i].y + 2
-                : pointNodePositions[i].y;
-        }
-        
+        pointNodePositions = points.getPointsPositions();
+        pointNodeColors = points.getPointsColors();
         // our mouse
         pointNodePositions[numberOfPoints - 1] = getMousePosition(window);
-        
-        counter = counter == 1000 ? 0 : ++counter;
-        for (int i = 0; i < numberOfPoints && counter == 0; i++ )
-        {
-            pointNodeMoves[i].x = random.getRandomMove();
-            pointNodeMoves[i].y = random.getRandomMove();
-        }
         
         glUniform3fv(pointPositions, numberOfPoints, glm::value_ptr(pointNodePositions[0]));
         glUniform3fv(pointColors, numberOfPoints, glm::value_ptr(pointNodeColors[0]));
