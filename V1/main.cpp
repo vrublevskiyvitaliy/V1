@@ -18,6 +18,7 @@ GLFWwindow* window;
 using namespace glm;
 
 #include "shader.hpp"
+#include "RandomClass.hpp"
 
 const int numberOfPoints = 100;
 
@@ -68,29 +69,6 @@ int init()
     return 0;
 }
 
-//return value from 0 to 1
-float getRandom()
-{
-    return static_cast <float> (rand()) / static_cast <float> (RAND_MAX);
-}
-
-//return value from -1 to +1
-float getRandomPosition()
-{
-    float r = getRandom();
-    r = r*2 - 1;
-    return r;
-}
-
-//return value from -0.001 to +0.001
-float getRandomMove()
-{
-    float r = getRandom();
-    r = r / 500;
-    r = r *2 - 0.002;
-    return r;
-}
-
 glm::vec3 getMousePosition(GLFWwindow* window)
 {
     double xpos, ypos;
@@ -116,9 +94,7 @@ glm::vec3 getMousePosition(GLFWwindow* window)
 
 int main( void )
 {
-    // for random points
-    time_t t;
-    srand((unsigned) time(&t));
+    Random random;
     
     int code = init();
     if (code) {
@@ -157,17 +133,17 @@ int main( void )
 
     for (int i = 0; i < numberOfPoints; i++ )
     {
-        pointNodePositions[i].x = getRandomPosition();
-        pointNodePositions[i].y = getRandomPosition();
+        pointNodePositions[i].x = random.getRandomPosition();
+        pointNodePositions[i].y = random.getRandomPosition();
         pointNodePositions[i].z = 0;
         
-        pointNodeMoves[i].x = getRandomMove();
-        pointNodeMoves[i].y = getRandomMove();
+        pointNodeMoves[i].x = random.getRandomMove();
+        pointNodeMoves[i].y = random.getRandomMove();
         pointNodeMoves[i].z = 0;
         
-        pointNodeColors[i].x = getRandom();
-        pointNodeColors[i].y = getRandom();
-        pointNodeColors[i].z = getRandom();
+        pointNodeColors[i].x = random.getRandom();
+        pointNodeColors[i].y = random.getRandom();
+        pointNodeColors[i].z = random.getRandom();
     }
 
     
@@ -218,8 +194,8 @@ int main( void )
         counter = counter == 1000 ? 0 : ++counter;
         for (int i = 0; i < numberOfPoints && counter == 0; i++ )
         {
-            pointNodeMoves[i].x = getRandomMove();
-            pointNodeMoves[i].y = getRandomMove();
+            pointNodeMoves[i].x = random.getRandomMove();
+            pointNodeMoves[i].y = random.getRandomMove();
         }
         
         glUniform3fv(pointPositions, numberOfPoints, glm::value_ptr(pointNodePositions[0]));

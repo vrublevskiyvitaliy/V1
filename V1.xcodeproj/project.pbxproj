@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		F143157A1E60C61A00D3A889 /* RandomClass.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F14315781E60C61A00D3A889 /* RandomClass.cpp */; };
 		F16241CD1E5AD7F30087E711 /* main.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F16241CC1E5AD7F30087E711 /* main.cpp */; };
 		F16241DD1E5AD8900087E711 /* OpenGL.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F16241DC1E5AD8900087E711 /* OpenGL.framework */; };
 		F16241DF1E5AD8A80087E711 /* libGLEW.2.0.0.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = F16241DE1E5AD8A80087E711 /* libGLEW.2.0.0.dylib */; };
@@ -27,6 +28,8 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		F14315781E60C61A00D3A889 /* RandomClass.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = RandomClass.cpp; sourceTree = "<group>"; };
+		F14315791E60C61A00D3A889 /* RandomClass.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = RandomClass.hpp; sourceTree = "<group>"; };
 		F16241C91E5AD7F30087E711 /* V1 */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = V1; sourceTree = BUILT_PRODUCTS_DIR; };
 		F16241CC1E5AD7F30087E711 /* main.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = main.cpp; sourceTree = "<group>"; };
 		F16241DC1E5AD8900087E711 /* OpenGL.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = OpenGL.framework; path = System/Library/Frameworks/OpenGL.framework; sourceTree = SDKROOT; };
@@ -75,6 +78,8 @@
 				F16241EE1E5AECCB0087E711 /* common */,
 				F16241ED1E5AECC30087E711 /* shader */,
 				F16241CC1E5AD7F30087E711 /* main.cpp */,
+				F14315781E60C61A00D3A889 /* RandomClass.cpp */,
+				F14315791E60C61A00D3A889 /* RandomClass.hpp */,
 			);
 			path = V1;
 			sourceTree = "<group>";
@@ -164,6 +169,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				F143157A1E60C61A00D3A889 /* RandomClass.cpp in Sources */,
 				F16241E81E5AE2620087E711 /* shader.cpp in Sources */,
 				F16241CD1E5AD7F30087E711 /* main.cpp in Sources */,
 			);
