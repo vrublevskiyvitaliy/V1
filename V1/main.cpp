@@ -22,6 +22,7 @@ using namespace glm;
 #include "OpenGLHelper.hpp"
 
 const int numberOfPoints = 100;
+const bool useMouse = false;
 
 int init()
 {
@@ -130,7 +131,9 @@ int main( void )
         pointNodePositions = points.getPointsPositions();
         pointNodeColors = points.getPointsColors();
         // our mouse
-        pointNodePositions[numberOfPoints - 1] = helper.getMousePosition(window);
+        if (useMouse) {
+            pointNodePositions[numberOfPoints - 1] = helper.getMousePosition(window);
+        }
         
         glUniform3fv(pointPositions, numberOfPoints, glm::value_ptr(pointNodePositions[0]));
         glUniform3fv(pointColors, numberOfPoints, glm::value_ptr(pointNodeColors[0]));
