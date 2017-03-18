@@ -19,6 +19,7 @@ using namespace glm;
 
 #include "shader.hpp"
 #include "Points.hpp"
+#include "OpenGLHelper.hpp"
 
 const int numberOfPoints = 100;
 
@@ -69,34 +70,8 @@ int init()
     return 0;
 }
 
-glm::vec3 getMousePosition(GLFWwindow* window)
-{
-    double xpos, ypos;
-    glfwGetCursorPos(window, &xpos, &ypos);
-    
-    
-    int xSize = 1024, ySize = 768;
-    
-    glfwGetWindowSize(window, &xSize, &ySize);
-    
-    glm::vec3 mouse;
-
-    mouse.x = ( xpos * 2.0 ) / ( xSize ) - 1;
-    mouse.y = ( ypos * 2.0 ) / ( ySize) - 1;
-    
-    // invert y
-    // because glfwGetCursorPos return position from upper-left corner
-    mouse.y = - mouse.y;
-
-    mouse.z = 0;
-    
-    return mouse;
-}
-
 int main( void )
-{
-//    Random random;
-    
+{    
     int code = init();
     if (code) {
         return code;
@@ -128,7 +103,8 @@ int main( void )
     
     glm::vec3 * pointNodePositions;
     glm::vec3 * pointNodeColors;
-
+    
+    OpenGLHelper helper;
     Points points(numberOfPoints);
     
     GLuint vertexbuffer;
@@ -154,7 +130,7 @@ int main( void )
         pointNodePositions = points.getPointsPositions();
         pointNodeColors = points.getPointsColors();
         // our mouse
-        pointNodePositions[numberOfPoints - 1] = getMousePosition(window);
+        pointNodePositions[numberOfPoints - 1] = helper.getMousePosition(window);
         
         glUniform3fv(pointPositions, numberOfPoints, glm::value_ptr(pointNodePositions[0]));
         glUniform3fv(pointColors, numberOfPoints, glm::value_ptr(pointNodeColors[0]));

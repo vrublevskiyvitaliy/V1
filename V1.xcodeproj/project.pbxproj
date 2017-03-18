@@ -14,6 +14,7 @@
 		F16241DF1E5AD8A80087E711 /* libGLEW.2.0.0.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = F16241DE1E5AD8A80087E711 /* libGLEW.2.0.0.dylib */; };
 		F16241E11E5AD8C10087E711 /* libglfw.3.2.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = F16241E01E5AD8C10087E711 /* libglfw.3.2.dylib */; };
 		F16241E81E5AE2620087E711 /* shader.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F16241E61E5AE2620087E711 /* shader.cpp */; };
+		F18B3A081E7DAB4400682197 /* OpenGLHelper.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F18B3A061E7DAB4400682197 /* OpenGLHelper.cpp */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -42,6 +43,8 @@
 		F16241E71E5AE2620087E711 /* shader.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = shader.hpp; sourceTree = "<group>"; };
 		F16241EB1E5AEADF0087E711 /* ColorFragmentShader.fragmentshader */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = ColorFragmentShader.fragmentshader; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.cpp; };
 		F16241EC1E5AEADF0087E711 /* TransformVertexShader.vertexshader */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = TransformVertexShader.vertexshader; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.c; };
+		F18B3A061E7DAB4400682197 /* OpenGLHelper.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = OpenGLHelper.cpp; sourceTree = "<group>"; };
+		F18B3A071E7DAB4400682197 /* OpenGLHelper.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = OpenGLHelper.hpp; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -62,6 +65,7 @@
 			isa = PBXGroup;
 			children = (
 				F14315781E60C61A00D3A889 /* RandomClass.cpp */,
+				F18B3A061E7DAB4400682197 /* OpenGLHelper.cpp */,
 				F143157B1E60CA3200D3A889 /* Points.cpp */,
 			);
 			name = source;
@@ -71,6 +75,7 @@
 			isa = PBXGroup;
 			children = (
 				F143157C1E60CA3200D3A889 /* Points.hpp */,
+				F18B3A071E7DAB4400682197 /* OpenGLHelper.hpp */,
 				F14315791E60C61A00D3A889 /* RandomClass.hpp */,
 			);
 			name = header;
@@ -193,6 +198,7 @@
 				F143157D1E60CA3200D3A889 /* Points.cpp in Sources */,
 				F143157A1E60C61A00D3A889 /* RandomClass.cpp in Sources */,
 				F16241E81E5AE2620087E711 /* shader.cpp in Sources */,
+				F18B3A081E7DAB4400682197 /* OpenGLHelper.cpp in Sources */,
 				F16241CD1E5AD7F30087E711 /* main.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
