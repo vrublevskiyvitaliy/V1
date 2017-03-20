@@ -110,6 +110,7 @@ int main( void )
         data[i*4+2]=0;
         data[i*4+3]=128;
     }
+    // todo: check how precise the conversion is
     int i = 124;
     data[i*4]=255;
     data[i*4+1]=255;
