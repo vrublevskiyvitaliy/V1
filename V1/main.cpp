@@ -99,17 +99,23 @@ int main( void )
     GLuint vertexTexture;
     GLuint   locTex = glGetUniformLocation(programID, "vertexTexture");
     int n = 127;
-    float *data=new float[n*n];
+    float *data=new float[n*1];
     
     //initialize data array with random integers between 1 and 100
-    for(int i=0;i<n*n;i++)
+    
+    //1, 1, 1 for black
+    for(int i=0;i<n*1;i++)
         data[i]=float(1);
+    
+    data[126] = 0;
+    data[125] = 0.5;
+    
     
     //creat a texture and store data
     glGenTextures(1, &vertexTexture);
     glActiveTexture(GL_TEXTURE0);
     glBindTexture(GL_TEXTURE_2D, vertexTexture);
-    glTexImage2D(GL_TEXTURE_2D, 0, GL_R32F, n,n, 0,GL_RED, GL_FLOAT, data);
+    glTexImage2D(GL_TEXTURE_2D, 0, GL_R32F,n,1, 0,GL_RED, GL_FLOAT, data);
     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
 
