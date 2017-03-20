@@ -7,5 +7,5 @@ varying vec3 vsoPosition;
 
 void main(void) {
     vsoPosition = vsiPosition;
-    gl_Position = MVP * vec4(vsiPosition, 1.0);
+    gl_Position = vec4(vsiPosition, 1.0);
 }

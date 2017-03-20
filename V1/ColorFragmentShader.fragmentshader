@@ -1,22 +1,18 @@
 #version 120
 
-const int numberOfPoints = 100;
-
 varying vec3 vsoPosition;
-uniform vec3 pointPositions[numberOfPoints];
-uniform vec3 pointColors[numberOfPoints];
+
+uniform int number;
+uniform sampler2D vertexTexture;
 
 void main(void) {
-    int i, c=0;
     
-    float min = length(pointPositions[0] - vsoPosition), l;
-    for(i = 1; i < numberOfPoints; i++){
-        l = length(vsoPosition - pointPositions[i]);
-        if (l < min){ min = l; c = i;}
-    }
-
-    gl_FragColor = length(min) > 0.01
-        ? vec4(pointColors[c], 1.0)
-        : vec4(1.,0,0, 1.0);
+    int index = 0;
+    float texCoord = index / 127.0;
+    vec2 vVertex = vec2(0,0);
+    vec2 vTexCoords=vVertex/127.0;
     
+    float term = texture2D(vertexTexture, vec2(0,0)).r;
+    
+    gl_FragColor = vec4(term,number/5.,0, 1.0);
 }

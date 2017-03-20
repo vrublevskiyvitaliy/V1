@@ -21,9 +21,6 @@ using namespace glm;
 #include "Points.hpp"
 #include "OpenGLHelper.hpp"
 
-const int numberOfPoints = 100;
-const bool useMouse = false;
-
 int init()
 {
     // Initialise GLFW
@@ -81,18 +78,10 @@ int main( void )
     // Create and compile our GLSL program from the shaders
     GLuint programID = LoadShaders( "TransformVertexShader.vertexshader", "ColorFragmentShader.fragmentshader" );
     
-    // Get a handle for our "MVP" uniform
-    GLuint MatrixID = glGetUniformLocation(programID, "MVP");
     
     // Get a handle for our buffers
     GLuint vsiPosition = glGetAttribLocation(programID, "vsiPosition");
-    GLuint pointPositions = glGetUniformLocation(programID, "pointPositions");
-    GLuint pointColors = glGetUniformLocation(programID, "pointColors");
-    
-    // Model matrix : an identity matrix (model will be at the origin)
-    glm::mat4 Model      = glm::mat4(1.0f);
-    // Our ModelViewProjection : multiplication of our 3 matrices
-    glm::mat4 MVP        = Model; // Remember, matrix multiplication is the other way around
+    GLuint number = glGetUniformLocation(programID, "number");
     
     // Our vertices of QUAD
     static const GLfloat g_vertex_buffer_data[] = {
@@ -102,16 +91,28 @@ int main( void )
         -1.0f,  1.0f, 0.0f,
     };
     
-    glm::vec3 * pointNodePositions;
-    glm::vec3 * pointNodeColors;
-    
-    OpenGLHelper helper;
-    Points points(numberOfPoints);
-    
     GLuint vertexbuffer;
     glGenBuffers(1, &vertexbuffer);
     glBindBuffer(GL_ARRAY_BUFFER, vertexbuffer);
     glBufferData(GL_ARRAY_BUFFER, sizeof(g_vertex_buffer_data), g_vertex_buffer_data, GL_STATIC_DRAW);
+    
+    GLuint vertexTexture;
+    GLuint   locTex = glGetUniformLocation(programID, "vertexTexture");
+    int n = 127;
+    float *data=new float[n*n];
+    
+    //initialize data array with random integers between 1 and 100
+    for(int i=0;i<n*n;i++)
+        data[i]=float(1);
+    
+    //creat a texture and store data
+    glGenTextures(1, &vertexTexture);
+    glActiveTexture(GL_TEXTURE0);
+    glBindTexture(GL_TEXTURE_2D, vertexTexture);
+    glTexImage2D(GL_TEXTURE_2D, 0, GL_R32F, n,n, 0,GL_RED, GL_FLOAT, data);
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
+
     
     int counter = 0;
     do{
@@ -122,21 +123,9 @@ int main( void )
         // Use our shader
         glUseProgram(programID);
         
-        // Send our transformation to the currently bound shader,
-        // in the "MVP" uniform
-        glUniformMatrix4fv(MatrixID, 1, GL_FALSE, &MVP[0][0]);
+        glUniform1i(number, 5);
+        glUniform1i(locTex, 0);
         
-        points.applyMove();
-        
-        pointNodePositions = points.getPointsPositions();
-        pointNodeColors = points.getPointsColors();
-        // our mouse
-        if (useMouse) {
-            pointNodePositions[numberOfPoints - 1] = helper.getMousePosition(window);
-        }
-        
-        glUniform3fv(pointPositions, numberOfPoints, glm::value_ptr(pointNodePositions[0]));
-        glUniform3fv(pointColors, numberOfPoints, glm::value_ptr(pointNodeColors[0]));
         
         // 1rst attribute buffer : vertices
         glEnableVertexAttribArray(vsiPosition);
@@ -170,5 +159,6 @@ int main( void )
     // Close OpenGL window and terminate GLFW
     glfwTerminate();
     
+    delete[] data;
     return 0;
 }
