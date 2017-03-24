@@ -40,7 +40,6 @@ int main( void )
     
     // Get a handle for our buffers
     GLuint vsiPosition = glGetAttribLocation(programID, "vsiPosition");
-    GLuint pointPositions = glGetUniformLocation(programID, "pointPositions");
     GLuint kdTreeSize = glGetUniformLocation(programID, "UN_SAMP_KDTREE_SIZE");
     
     // Model matrix : an identity matrix (model will be at the origin)
@@ -55,8 +54,6 @@ int main( void )
         1.0f,  1.0f, 0.0f,
         -1.0f,  1.0f, 0.0f,
     };
-    
-    glm::vec3 * pointNodePositions;
     
     Points points(numberOfPoints);
     
@@ -128,17 +125,8 @@ int main( void )
         // Send our transformation to the currently bound shader,
         // in the "MVP" uniform
         glUniformMatrix4fv(MatrixID, 1, GL_FALSE, &MVP[0][0]);
-        
-        points.applyMove();
-        
-        pointNodePositions = points.getPointsPositions();
-        // our mouse
-        if (useMouse) {
-            pointNodePositions[numberOfPoints - 1] = OpenGLHelper::getMousePosition(window);
-        }
-        
-        glUniform3fv(pointPositions, numberOfPoints, glm::value_ptr(pointNodePositions[0]));
-        
+
+
         // 1rst attribute buffer : vertices
         glEnableVertexAttribArray(vsiPosition);
         glBindBuffer(GL_ARRAY_BUFFER, vertexbuffer);

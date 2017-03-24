@@ -1,9 +1,7 @@
 #version 120
 #extension GL_EXT_gpu_shader4 : enable
-const int numberOfPoints = 100;
 
 varying vec3 vsoPosition;
-uniform vec3 pointPositions[numberOfPoints];
 
 uniform sampler2D vertexTexture;
 
@@ -269,22 +267,8 @@ void main(void) {
     
     //gl_FragColor = color;
 
-    
-    //int i, c=0;
-    
-    //float min = length(pointPositions[0] - vsoPosition), l;
-    
     //float index = 3;
     //vec4 color = texture2D(vertexTexture, vec2(index/tex_kdtree_width, 1));
-    
-    //int number = int(color.a * 255.);
-    
-    //for(i = 1; i < number; i++){
-    //    l = length(vsoPosition - pointPositions[i]);
-    //    if (l < min){ min = l; c = i;}
-    //}
-    
-    
     
     
     //gl_FragColor = vec4(color.r,color.g,color.b, 1.0);
