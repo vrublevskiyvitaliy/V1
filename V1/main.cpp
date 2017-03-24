@@ -23,12 +23,14 @@ using namespace glm;
 #include "KDTree.hpp"
 
 const bool useMouse = false;
+const bool printFPS = false;
 
 int main( void )
 {
     if (!OpenGLHelper::initGLFWWindow(window)) {
         return 1;
     }
+    
     
     // Create and compile our GLSL program from the shaders
     GLuint programID = OpenGLHelper::loadShaders(
@@ -58,22 +60,19 @@ int main( void )
     
     KDTree tree;
     
-    double lastTime = glfwGetTime(); int nbFrames = 0;
     double lastTimeTree = glfwGetTime();
     double lastTimeLoop = glfwGetTime();
-    int counter = 0;
+    
+    OpenGLHelper helper(printFPS);
+    helper.startFPSCounter();
+    
     do{
-        double currentTime = glfwGetTime();
+        
+        helper.FPSCounter();
+        
         double currentTimeLoop = glfwGetTime();
-        printf("%f time for loop\n", currentTimeLoop - lastTimeLoop);
+        //printf("%f time for loop\n", currentTimeLoop - lastTimeLoop);
         lastTimeLoop = glfwGetTime();
-        nbFrames++;
-        if ( currentTime - lastTime >= 1.0 ){ // If last prinf() was more than 1 sec ago
-            // printf and reset timer
-            printf("%f ms/frame or %f fps\n", 1000.0/double(nbFrames), double(nbFrames));
-            nbFrames = 0;
-            lastTime += 1.0;
-        }
         
         
         lastTimeTree = glfwGetTime();
@@ -89,7 +88,7 @@ int main( void )
             }
         double currentTimeTree = glfwGetTime();
         
-        printf("%f time for tree \n", currentTimeTree - lastTimeTree);
+        //printf("%f time for tree \n", currentTimeTree - lastTimeTree);
 
             glm::vec2 kdTreeSizeValue = glm::vec2(n, 1);
         

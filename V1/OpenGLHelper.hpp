@@ -25,11 +25,16 @@
 
 
 class OpenGLHelper{
+    bool printFPS;
+    double lastFPSTime;
+    int numberOfFrames;
 public:
+    OpenGLHelper(bool _printFPS);
     static glm::vec3 getMousePosition(GLFWwindow* window);
     static bool initGLFWWindow(GLFWwindow * & window);
     static GLuint loadShaders(const char * vertex_file_path,const char * fragment_file_path);
-    
+    void FPSCounter();
+    void startFPSCounter();
 };
 
 #endif /* OpenGLHelper_hpp */

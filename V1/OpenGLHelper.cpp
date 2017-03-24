@@ -8,6 +8,33 @@
 
 #include "OpenGLHelper.hpp"
 
+
+OpenGLHelper::OpenGLHelper(bool _printFPS)
+{
+    printFPS = _printFPS;
+}
+
+void OpenGLHelper::startFPSCounter()
+{
+    lastFPSTime = glfwGetTime();
+    numberOfFrames = 0;
+}
+
+
+void OpenGLHelper::FPSCounter()
+{
+    if (!printFPS) return;
+    
+    numberOfFrames++;
+    double currentFPSTime = glfwGetTime();
+    if ( currentFPSTime - lastFPSTime >= 1.0 ){ // If last prinf() was more than 1 sec ago
+        // printf and reset timer
+        printf("%f ms/frame or %d fps\n", 1000.0/double(numberOfFrames), numberOfFrames);
+        numberOfFrames = 0;
+        lastFPSTime += 1.;
+    }
+}
+
 glm::vec3 OpenGLHelper::getMousePosition(GLFWwindow* window)
 {
     
