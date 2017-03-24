@@ -44,96 +44,11 @@ struct NN{    // Nearest Neighbor. (really just "dis" is needed!)
 };
 
 
-
-/*
-// Kd-Tree Node - texture look up
 void getNode(const int n_idx, inout Node node){
-    
-    // re-create node: encoding of 32bit rgba:
-    //
-    //                    bit-pos    24 16  8  0
-    //                       rgba    RR GG BB AA
-    //   point_y/dim/point_x/leaf    YY DY XX LX ( reversed in .rgba texture )
-    //  rebuilt(swizzled) version    LX XX DY YY ( .abgr )
-    
-    // 1) tex-coords: s,t
-    int t = n_idx/tex_kdtree_width;
-    int s = n_idx - t*tex_kdtree_width;
-    vec2 st = (vec2(s,t)+0.5) * VEC2_KDTREE_SIZE_INV;
-    vec2 st = vec2((n_idx* 1.)/tex_kdtree_width, 1);
-    // 2) texture look-up of rgba normalized float values.
-    //    mult with 255 and convert to int, to get original bytes.
-    //    if dot(lx_xx_dy_yy,lx_xx_dy_yy) == 0, then node is "non existing".
-    ivec4 lx_xx_dy_yy = ivec4(texture2D(vertexTexture, st).abgr * 255.0); // .abgr !!!
-    
-    // 3) shift .rb 8 bytes to the left and merge with .ga
-    ivec2 lxxx_dyyy = LS_08( lx_xx_dy_yy.rb ) + lx_xx_dy_yy.ga;
-    
-    // 4) extract leaf and dim, which both are saved in the last bit. so shift right by 15.
-    ivec2 ld = RS_15( lxxx_dyyy ); // x=leaf, y=dim
-    
-    // 5) subtract leaf/dim bits to get x/y coordinates (still integer and scaled)
-    ivec2 xy = lxxx_dyyy - LS_15( ld );
-    
-    // 6) apply reconstructed values to the node
-    node.leaf  = ld.x;                // 0=inter, 1=leaf,
-    node.dim   = ld.y;                // dimension: 0 or 1 (for 2d-tree)
-    node.pnt   = vec2(xy)*POINT_PREC; // convert x/y to float and scale back.
-}
-*/
-
-
-void getNode(const int n_idx, inout Node node){
-    
-    /*
-     tree[1]           dim=0  [P,L,R]=[0,2,3]  pnt=[-0.10,-0.10]
-     tree[2]           dim=1  [P,L,R]=[1,4,5]  pnt=[-0.40,-0.40]
-     tree[3]           dim=1  [P,L,R]=[1,6,7]  pnt=[0.20,0.20]
-     tree[4]  -> LEAF  dim=0  [P,L,R]=[2,8,9]  pnt=[-0.70,-0.70]
-     tree[5]  -> LEAF  dim=0  [P,L,R]=[2,10,11]  pnt=[-0.40,-0.40]
-     tree[6]  -> LEAF  dim=0  [P,L,R]=[3,12,13]  pnt=[-0.10,-0.10]
-     tree[7]  -> LEAF  dim=0  [P,L,R]=[3,14,15]  pnt=[0.20,0.20]
-     */
-    /*
-    if (n_idx == 1) {
-        node.leaf  = 0;
-        node.dim   = 0;
-        node.pnt   = vec2(-0.10,-0.10);
-    } else if (n_idx == 2) {
-        node.leaf  = 0;
-        node.dim   = 1;
-        node.pnt   = vec2(-0.40,-0.40);
-    } else if (n_idx == 3) {
-        node.leaf  = 0;
-        node.dim   = 1;
-        node.pnt   = vec2(0.20,0.20);
-    }else if (n_idx == 4) {
-        node.leaf  = 1;
-        node.dim   = 0;
-        node.pnt   = vec2(-0.70,-0.70);
-    }else if (n_idx == 5) {
-        node.leaf  = 1;
-        node.dim   = 0;
-        node.pnt   = vec2(-0.40,-0.40);
-    } else if (n_idx == 6) {
-        node.leaf  = 1;
-        node.dim   = 0;
-        node.pnt   = vec2(-0.10,-0.10);
-    }else if (n_idx == 7) {
-        node.leaf  = 1;
-        node.dim   = 0;
-        node.pnt   = vec2(0.20,0.20);
-    } else {
-        node.leaf  = 0;
-        node.dim   = 0;
-        node.pnt   = vec2(0, 0);
-    }
-    */
-    
     int MAX_NUMBER = 16384;
-    int  BIT_LEAF = 0x80; //    31
+    int  BIT_LEAF = 0x80;
     int  BIT_DIM  = 0x80;
-    int  BIT_SIGN_X  = 0x80; //    30
+    int  BIT_SIGN_X  = 0x80;
     int  BIT_SIGN_Y  = 0x80;
     int  BIT_NUMBER_BEGIN  = 0x7F;
     int  BIT_NUMBER_END  = 0x7F80;
@@ -170,13 +85,6 @@ void getNode(const int n_idx, inout Node node){
     y *= inverse;
     node.pnt   = vec2(sign_x * x,sign_y * y);
     node.index = n_idx;
-    //node.p.x = sign_x * x;
-    //node.p.y = sign_y * y;
-    
-    //return node;
-
-    
-
 }
 
 
@@ -252,11 +160,7 @@ void main(void) {
     
     NN nn = NN(vec2(vsoPosition.x, vsoPosition.y), 50000000.0, 1); // init nearest neighbor values
     getNearestNeighbor(nn);              // kd-tree nearest neighbor search
-    //int n_idx = 1;
-    //Node node;
-    //getNode(n_idx, node);
-    
-    
+
     gl_FragColor = vec4(nn.dis , 0, 0, 1. );
     vec4 color;
     if (nn.dis < 0.01) {
@@ -266,10 +170,4 @@ void main(void) {
     }
     
     //gl_FragColor = color;
-
-    //float index = 3;
-    //vec4 color = texture2D(vertexTexture, vec2(index/tex_kdtree_width, 1));
-    
-    
-    //gl_FragColor = vec4(color.r,color.g,color.b, 1.0);
 }
