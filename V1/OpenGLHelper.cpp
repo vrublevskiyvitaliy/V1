@@ -9,9 +9,10 @@
 #include "OpenGLHelper.hpp"
 
 
-OpenGLHelper::OpenGLHelper(bool _printFPS)
+OpenGLHelper::OpenGLHelper(bool _printFPS, bool _printLoopTime)
 {
     printFPS = _printFPS;
+    printLoopTime = _printLoopTime;
 }
 
 void OpenGLHelper::startFPSCounter()
@@ -33,6 +34,22 @@ void OpenGLHelper::FPSCounter()
         numberOfFrames = 0;
         lastFPSTime += 1.;
     }
+}
+
+
+void OpenGLHelper::startLoopCounter()
+{
+    lastLoopTime = glfwGetTime();
+}
+
+void OpenGLHelper::loopCounter()
+{
+    if (!printLoopTime) return;
+    
+    double currentLoopTime = glfwGetTime();
+    printf("%f time for loop\n", currentLoopTime - lastLoopTime);
+    
+    lastLoopTime = glfwGetTime();
 }
 
 glm::vec3 OpenGLHelper::getMousePosition(GLFWwindow* window)

@@ -23,7 +23,8 @@ using namespace glm;
 #include "KDTree.hpp"
 
 const bool useMouse = false;
-const bool printFPS = false;
+const bool printFPS = true;
+const bool printLoopTime = true;
 
 int main( void )
 {
@@ -61,19 +62,14 @@ int main( void )
     KDTree tree;
     
     double lastTimeTree = glfwGetTime();
-    double lastTimeLoop = glfwGetTime();
     
-    OpenGLHelper helper(printFPS);
+    OpenGLHelper helper(printFPS, printLoopTime);
     helper.startFPSCounter();
-    
+    helper.startLoopCounter();
+
     do{
-        
+        helper.loopCounter();
         helper.FPSCounter();
-        
-        double currentTimeLoop = glfwGetTime();
-        //printf("%f time for loop\n", currentTimeLoop - lastTimeLoop);
-        lastTimeLoop = glfwGetTime();
-        
         
         lastTimeTree = glfwGetTime();
             tree.setData();
