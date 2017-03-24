@@ -17,7 +17,7 @@
 
 class Points{
 public:
-    const static int MAX_POINTS_NUMBER = 10000;
+    const static int MAX_POINTS_NUMBER = 100000;
 
 private:
    

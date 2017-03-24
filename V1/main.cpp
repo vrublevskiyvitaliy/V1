@@ -24,7 +24,7 @@ using namespace glm;
 
 const bool useMouse = false;
 const bool printFPS = true;
-const bool printLoopTime = true;
+const bool printLoopTime = false;
 
 int main( void )
 {
@@ -50,16 +50,9 @@ int main( void )
         helper.registerLoop();
         
         lastTimeTree = glfwGetTime();
-            tree.setData();
-            int n = tree.getNumNodes();
-            std::vector<float> v_data = tree.getData();
-        
-            float * data = new float[n * 4];
-        
-            for(int i=0; i < n * 4; i++)
-            {
-                data[i]=v_data[i];
-            }
+        tree.setData();
+        int n = tree.getNumNodes();
+        std::vector<float> v_data = tree.getData();
         double currentTimeTree = glfwGetTime();
         
         //printf("%f time for tree \n", currentTimeTree - lastTimeTree);
@@ -70,7 +63,7 @@ int main( void )
         // Use our shader
         glUseProgram(programID);
         
-        helper.passTextureToShader(n, data);
+        helper.passTextureToShader(n, v_data);
         
         glUniform2f(glGetUniformLocation(programID, "UN_SAMP_KDTREE_SIZE"), double(n), 1.);
         

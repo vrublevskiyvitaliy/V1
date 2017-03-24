@@ -41,7 +41,7 @@ public:
     static bool initGLFWWindow(GLFWwindow * & window);
     GLuint loadShaders(const char * vertex_file_path,const char * fragment_file_path);
 
-    void passTextureToShader(int n, float * data);
+    void passTextureToShader(int n, std::vector<float> data);
     
     
     void registerLoop();

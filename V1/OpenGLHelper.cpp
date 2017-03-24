@@ -75,14 +75,15 @@ glm::vec3 OpenGLHelper::getMousePosition(GLFWwindow* window)
     return mouse;
 }
 
-void OpenGLHelper::passTextureToShader(int n, float * data)
+void OpenGLHelper::passTextureToShader(int n, std::vector<float> data)
 {
     GLuint vertexTexture;
     
     glGenTextures(1, &vertexTexture);
     glActiveTexture(GL_TEXTURE0);
     glBindTexture(GL_TEXTURE_2D, vertexTexture);
-    glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, n, 1, 0, GL_RGBA, GL_FLOAT, data);
+    // todo: maybe find better solution than &data[0]
+    glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, n, 1, 0, GL_RGBA, GL_FLOAT, &data[0]);
     
     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
