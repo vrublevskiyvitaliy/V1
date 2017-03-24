@@ -32,7 +32,6 @@ int main( void )
         return 1;
     }
     
-    
     // Create and compile our GLSL program from the shaders
     GLuint programID = OpenGLHelper::loadShaders(
         "TransformVertexShader.vertexshader",
@@ -41,7 +40,7 @@ int main( void )
     
     // Get a handle for our buffers
     GLuint vsiPosition = glGetAttribLocation(programID, "vsiPosition");
-    GLuint kdTreeSize = glGetUniformLocation(programID, "UN_SAMP_KDTREE_SIZE");
+    
     
     // Our vertices of QUAD
     static const GLfloat g_vertex_buffer_data[] = {
@@ -57,7 +56,6 @@ int main( void )
     glBufferData(GL_ARRAY_BUFFER, sizeof(g_vertex_buffer_data), g_vertex_buffer_data, GL_STATIC_DRAW);
     
     GLuint vertexTexture;
-    GLuint locTex = glGetUniformLocation(programID, "vertexTexture");
     
     KDTree tree;
     
@@ -82,8 +80,6 @@ int main( void )
         double currentTimeTree = glfwGetTime();
         
         //printf("%f time for tree \n", currentTimeTree - lastTimeTree);
-
-            glm::vec2 kdTreeSizeValue = glm::vec2(n, 1);
         
             glGenTextures(1, &vertexTexture);
             glActiveTexture(GL_TEXTURE0);
@@ -102,8 +98,8 @@ int main( void )
         // Use our shader
         glUseProgram(programID);
         
-        glUniform1i(locTex, 0);
-        glUniform2f(kdTreeSize, kdTreeSizeValue.x, kdTreeSizeValue.y);
+        glUniform1i(glGetUniformLocation(programID, "vertexTexture"), 0);
+        glUniform2f(glGetUniformLocation(programID, "UN_SAMP_KDTREE_SIZE"), double(n), 1.);
 
 
         // 1rst attribute buffer : vertices
