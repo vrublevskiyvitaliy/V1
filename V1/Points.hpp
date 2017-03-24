@@ -10,17 +10,13 @@
 #define Points_hpp
 
 #include <stdio.h>
-
+#include <vector>
 #include <glm/glm.hpp>
 
 #include "RandomClass.hpp"
 
 class Points{
-public:
-    const static int MAX_POINTS_NUMBER = 100000;
 
-private:
-   
     const static int DEFAULT_POINTS_NUMBER = 100;
     const static int DEFAULT_CHANGE_MOVE_ITERATIONS = 1000;
     
@@ -31,18 +27,18 @@ private:
     int numberOfPoints;
     Random random;
     
-    glm::vec2 pointsPositions[MAX_POINTS_NUMBER];
-    glm::vec2 pointsMoves[MAX_POINTS_NUMBER];
-    glm::vec3 pointsColors[MAX_POINTS_NUMBER];
+    std::vector<glm::vec2> pointsPositions;
+    std::vector<glm::vec2> pointsMoves;
+    std::vector<glm::vec3> pointsColors;
 public:
     
     Points(int number);
     void applyMove();
     void updateMoves();
     int getNumberOfPoints();
-    glm::vec2 * getPointsPositions();
-    glm::vec2 * getPointsMoves();
-    glm::vec3 * getPointsColors();
+    std::vector<glm::vec2> getPointsPositions();
+    std::vector<glm::vec2> getPointsMoves();
+    std::vector<glm::vec3> getPointsColors();
 private:
     void updateIfOutOfArea();
     void initPoints();

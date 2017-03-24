@@ -9,9 +9,14 @@
 #include "Points.hpp"
 
 Points::Points(int number) {
-    numberOfPoints = number > 0 && number < MAX_POINTS_NUMBER
+    numberOfPoints = number > 0
         ? number
         : DEFAULT_POINTS_NUMBER;
+    
+    pointsPositions = std::vector<glm::vec2>(numberOfPoints);
+    pointsMoves = std::vector<glm::vec2>(numberOfPoints);
+    pointsColors = std::vector<glm::vec3>(numberOfPoints);
+    
     initPoints();
 }
 
@@ -54,14 +59,15 @@ void Points::updateMoves() {
         pointsMoves[i].y = random.getRandomMove();
     }
 }
-glm::vec2 * Points::getPointsPositions() {
+std::vector<glm::vec2> Points::getPointsPositions() {
     return pointsPositions;
 }
 
-glm::vec2 * Points::getPointsMoves() {
+std::vector<glm::vec2> Points::getPointsMoves() {
     return pointsMoves;
 }
-glm::vec3 * Points::getPointsColors() {
+
+std::vector<glm::vec3> Points::getPointsColors() {
     return pointsColors;
 }
 

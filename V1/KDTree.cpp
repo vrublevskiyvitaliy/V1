@@ -19,12 +19,7 @@ void KDTree::setData()
 {
     //free_data();
     p->applyMove();
-    glm::vec2 * pointsPositions = p->getPointsPositions();
-    std::vector<glm::vec2> points(num_point);
-    for (int i = 0; i < num_point; i++) {
-        points[i].x = pointsPositions[i].x;
-        points[i].y = pointsPositions[i].y;
-    }
+    std::vector<glm::vec2> points = p->getPointsPositions();
     
     build(points, false);
 }
