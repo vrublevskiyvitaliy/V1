@@ -146,6 +146,11 @@ OpenGLHelper::~OpenGLHelper()
     glfwTerminate();
 }
 
+void OpenGLHelper::gpassKDTreeSizeToShader(int n) {
+    glUniform2f(glGetUniformLocation(programID, "UN_SAMP_KDTREE_SIZE"), double(n), 1.);
+}
+
+
 bool OpenGLHelper::initGLFWWindow(GLFWwindow * & window)
 {
     // Initialise GLFW

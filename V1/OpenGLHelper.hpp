@@ -51,6 +51,9 @@ public:
     
     void initVertexBuffer();
     void drawInLoop(GLFWwindow* window);
+    
+    void passKDTreeSizeToShader(int n);
+    
     ~OpenGLHelper();
 };
 

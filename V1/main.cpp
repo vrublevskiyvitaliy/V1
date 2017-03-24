@@ -50,11 +50,12 @@ int main( void )
         helper.registerLoop();
         
         lastTimeTree = glfwGetTime();
+        
         tree.setData();
         int n = tree.getNumNodes();
         std::vector<float> v_data = tree.getData();
-        double currentTimeTree = glfwGetTime();
         
+        double currentTimeTree = glfwGetTime();
         //printf("%f time for tree \n", currentTimeTree - lastTimeTree);
         
         // Clear the screen
@@ -65,7 +66,7 @@ int main( void )
         
         helper.passTextureToShader(n, v_data);
         
-        glUniform2f(glGetUniformLocation(programID, "UN_SAMP_KDTREE_SIZE"), double(n), 1.);
+        helper.passKDTreeSizeToShader(n);
         
         helper.drawInLoop(window);
 
