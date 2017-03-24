@@ -13,19 +13,24 @@ OpenGLHelper::OpenGLHelper(bool _printFPS, bool _printLoopTime)
 {
     printFPS = _printFPS;
     printLoopTime = _printLoopTime;
-}
-
-void OpenGLHelper::startFPSCounter()
-{
+    
+    lastLoopTime = glfwGetTime();
     lastFPSTime = glfwGetTime();
     numberOfFrames = 0;
+}
+
+void OpenGLHelper::registerLoop()
+{
+
+    if (printLoopTime) loopTime();
+    if (printFPS) FPSCounter();
+    
+    
 }
 
 
 void OpenGLHelper::FPSCounter()
 {
-    if (!printFPS) return;
-    
     numberOfFrames++;
     double currentFPSTime = glfwGetTime();
     if ( currentFPSTime - lastFPSTime >= 1.0 ){ // If last prinf() was more than 1 sec ago
@@ -36,16 +41,8 @@ void OpenGLHelper::FPSCounter()
     }
 }
 
-
-void OpenGLHelper::startLoopCounter()
+void OpenGLHelper::loopTime()
 {
-    lastLoopTime = glfwGetTime();
-}
-
-void OpenGLHelper::loopCounter()
-{
-    if (!printLoopTime) return;
-    
     double currentLoopTime = glfwGetTime();
     printf("%f time for loop\n", currentLoopTime - lastLoopTime);
     

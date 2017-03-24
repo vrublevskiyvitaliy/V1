@@ -64,12 +64,9 @@ int main( void )
     double lastTimeTree = glfwGetTime();
     
     OpenGLHelper helper(printFPS, printLoopTime);
-    helper.startFPSCounter();
-    helper.startLoopCounter();
 
     do{
-        helper.loopCounter();
-        helper.FPSCounter();
+        helper.registerLoop();
         
         lastTimeTree = glfwGetTime();
             tree.setData();

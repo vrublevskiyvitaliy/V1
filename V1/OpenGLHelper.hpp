@@ -28,8 +28,8 @@ class OpenGLHelper{
     bool printFPS;
     bool printLoopTime;
     
-    double lastFPSTime;
     double lastLoopTime;
+    double lastFPSTime;
 
     int numberOfFrames;
 public:
@@ -38,11 +38,9 @@ public:
     static bool initGLFWWindow(GLFWwindow * & window);
     static GLuint loadShaders(const char * vertex_file_path,const char * fragment_file_path);
     
-    void startFPSCounter();
+    void registerLoop();
     void FPSCounter();
-    
-    void startLoopCounter();
-    void loopCounter();
+    void loopTime();
 
 };
 
