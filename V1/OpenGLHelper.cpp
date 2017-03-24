@@ -93,6 +93,58 @@ void OpenGLHelper::passTextureToShader(int n, float * data)
     
 }
 
+void OpenGLHelper::initVertexBuffer() {
+    
+    // Our vertices of QUAD
+    static const GLfloat g_vertex_buffer_data[] = {
+        -1.0f, -1.0f, 0.0f,
+        1.0f, -1.0f, 0.0f,
+        1.0f,  1.0f, 0.0f,
+        -1.0f,  1.0f, 0.0f,
+    };
+    
+    glGenBuffers(1, &vertexbuffer);
+    glBindBuffer(GL_ARRAY_BUFFER, vertexbuffer);
+    glBufferData(GL_ARRAY_BUFFER, sizeof(g_vertex_buffer_data), g_vertex_buffer_data, GL_STATIC_DRAW);
+    
+}
+
+void OpenGLHelper::drawInLoop(GLFWwindow* window)
+{
+    GLuint vsiPosition = glGetAttribLocation(programID, "vsiPosition");
+    // 1rst attribute buffer : vertices
+    glEnableVertexAttribArray(vsiPosition);
+    glBindBuffer(GL_ARRAY_BUFFER, vertexbuffer);
+    glVertexAttribPointer(
+                          vsiPosition, // The attribute we want to configure
+                          3,                           // size
+                          GL_FLOAT,                    // type
+                          GL_FALSE,                    // normalized?
+                          0,                           // stride
+                          (void*)0                     // array buffer offset
+                          );
+    
+    // Draw the QUADS
+    glDrawArrays(GL_QUADS, 0, 4);
+    
+    glDisableVertexAttribArray(vsiPosition);
+    
+    // Swap buffers
+    glfwSwapBuffers(window);
+    glfwPollEvents();
+    
+}
+
+OpenGLHelper::~OpenGLHelper()
+{
+    // Cleanup VBO and shader
+    glDeleteBuffers(1, &vertexbuffer);
+    glDeleteProgram(programID);
+    
+    // Close OpenGL window and terminate GLFW
+    glfwTerminate();
+}
+
 bool OpenGLHelper::initGLFWWindow(GLFWwindow * & window)
 {
     // Initialise GLFW

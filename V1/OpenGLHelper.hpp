@@ -34,6 +34,7 @@ class OpenGLHelper{
     int numberOfFrames;
     
     GLuint programID;
+    GLuint vertexbuffer;
 public:
     OpenGLHelper(bool _printFPS, bool _printLoopTime);
     static glm::vec3 getMousePosition(GLFWwindow* window);
@@ -46,7 +47,11 @@ public:
     void registerLoop();
     void FPSCounter();
     void loopTime();
-
+    
+    
+    void initVertexBuffer();
+    void drawInLoop(GLFWwindow* window);
+    ~OpenGLHelper();
 };
 
 #endif /* OpenGLHelper_hpp */
