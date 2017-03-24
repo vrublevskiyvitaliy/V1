@@ -18,7 +18,6 @@ GLFWwindow * window;
 #include <glm/gtc/type_ptr.hpp>
 using namespace glm;
 
-#include "shader.hpp"
 #include "Points.hpp"
 #include "OpenGLHelper.hpp"
 #include "KDTree.hpp"
@@ -32,7 +31,10 @@ int main( void )
     }
     
     // Create and compile our GLSL program from the shaders
-    GLuint programID = LoadShaders( "TransformVertexShader.vertexshader", "ColorFragmentShader.fragmentshader" );
+    GLuint programID = OpenGLHelper::loadShaders(
+        "TransformVertexShader.vertexshader",
+        "ColorFragmentShader.fragmentshader"
+    );
     
     // Get a handle for our buffers
     GLuint vsiPosition = glGetAttribLocation(programID, "vsiPosition");

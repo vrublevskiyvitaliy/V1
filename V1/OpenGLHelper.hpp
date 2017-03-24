@@ -11,6 +11,10 @@
 
 #include <stdio.h>
 
+#include <string>
+#include <fstream>
+#include <vector>
+
 #include <glm/glm.hpp>
 
 // Include GLEW
@@ -19,10 +23,13 @@
 // Include GLFW
 #include <GLFW/glfw3.h>
 
+
 class OpenGLHelper{
 public:
     static glm::vec3 getMousePosition(GLFWwindow* window);
     static bool initGLFWWindow(GLFWwindow * & window);
+    static GLuint loadShaders(const char * vertex_file_path,const char * fragment_file_path);
+    
 };
 
 #endif /* OpenGLHelper_hpp */
