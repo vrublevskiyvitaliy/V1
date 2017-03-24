@@ -1,22 +1,296 @@
 #version 120
-
+#extension GL_EXT_gpu_shader4 : enable
 const int numberOfPoints = 100;
 
 varying vec3 vsoPosition;
 uniform vec3 pointPositions[numberOfPoints];
 uniform vec3 pointColors[numberOfPoints];
 
-void main(void) {
-    int i, c=0;
-    
-    float min = length(pointPositions[0] - vsoPosition), l;
-    for(i = 1; i < numberOfPoints; i++){
-        l = length(vsoPosition - pointPositions[i]);
-        if (l < min){ min = l; c = i;}
-    }
+uniform sampler2D vertexTexture;
 
-    gl_FragColor = length(min) > 0.01
-        ? vec4(pointColors[c], 1.0)
-        : vec4(1.,0,0, 1.0);
+// Bit-Shifting
+#define SHIFT_15 0x8000
+#define SHIFT_08 0x0100
+#define SHIFT_01 0x0002
+
+// RS_XX= Right Shift by XX, LS_XX = Left shift by XX
+#define RS_15(i) ( (i) / SHIFT_15 )
+#define LS_15(i) ( (i) * SHIFT_15 )
+#define RS_08(i) ( (i) / SHIFT_08 )
+#define LS_08(i) ( (i) * SHIFT_08 )
+#define RS_01(i) ( (i) / SHIFT_01 )
+#define LS_01(i) ( (i) * SHIFT_01 )
+
+// node index pointer
+#define P(i) ( RS_01(i)   ) // parent node
+#define L(i) ( LS_01(i)   ) // left child
+#define R(i) ( LS_01(i)+1 ) // right child
+
+#define POINT_PREC 0.1 // for scale point coords
+
+
+uniform vec2 UN_SAMP_KDTREE_SIZE;
+
+vec2 VEC2_KDTREE_SIZE_INV = 1.0 / (UN_SAMP_KDTREE_SIZE); // precompute textcoord scaling
+int  tex_kdtree_width     = int(UN_SAMP_KDTREE_SIZE.x);  // integer-size for texture look up (to get texture row)
+
+struct Node{      // Kd-Tree Node
+    vec2 pnt;       // node point
+    int leaf, dim; // leaf, split-dimension
+    int index;
+};
+
+struct NN{    // Nearest Neighbor. (really just "dis" is needed!)
+    vec2  pnt;  // pixel position, unnormalized!
+    float dis;  // init Float.MAX_VALUE;
+    float parent;
+};
+
+
+
+/*
+// Kd-Tree Node - texture look up
+void getNode(const int n_idx, inout Node node){
     
+    // re-create node: encoding of 32bit rgba:
+    //
+    //                    bit-pos    24 16  8  0
+    //                       rgba    RR GG BB AA
+    //   point_y/dim/point_x/leaf    YY DY XX LX ( reversed in .rgba texture )
+    //  rebuilt(swizzled) version    LX XX DY YY ( .abgr )
+    
+    // 1) tex-coords: s,t
+    int t = n_idx/tex_kdtree_width;
+    int s = n_idx - t*tex_kdtree_width;
+    vec2 st = (vec2(s,t)+0.5) * VEC2_KDTREE_SIZE_INV;
+    vec2 st = vec2((n_idx* 1.)/tex_kdtree_width, 1);
+    // 2) texture look-up of rgba normalized float values.
+    //    mult with 255 and convert to int, to get original bytes.
+    //    if dot(lx_xx_dy_yy,lx_xx_dy_yy) == 0, then node is "non existing".
+    ivec4 lx_xx_dy_yy = ivec4(texture2D(vertexTexture, st).abgr * 255.0); // .abgr !!!
+    
+    // 3) shift .rb 8 bytes to the left and merge with .ga
+    ivec2 lxxx_dyyy = LS_08( lx_xx_dy_yy.rb ) + lx_xx_dy_yy.ga;
+    
+    // 4) extract leaf and dim, which both are saved in the last bit. so shift right by 15.
+    ivec2 ld = RS_15( lxxx_dyyy ); // x=leaf, y=dim
+    
+    // 5) subtract leaf/dim bits to get x/y coordinates (still integer and scaled)
+    ivec2 xy = lxxx_dyyy - LS_15( ld );
+    
+    // 6) apply reconstructed values to the node
+    node.leaf  = ld.x;                // 0=inter, 1=leaf,
+    node.dim   = ld.y;                // dimension: 0 or 1 (for 2d-tree)
+    node.pnt   = vec2(xy)*POINT_PREC; // convert x/y to float and scale back.
+}
+*/
+
+
+void getNode(const int n_idx, inout Node node){
+    
+    /*
+     tree[1]           dim=0  [P,L,R]=[0,2,3]  pnt=[-0.10,-0.10]
+     tree[2]           dim=1  [P,L,R]=[1,4,5]  pnt=[-0.40,-0.40]
+     tree[3]           dim=1  [P,L,R]=[1,6,7]  pnt=[0.20,0.20]
+     tree[4]  -> LEAF  dim=0  [P,L,R]=[2,8,9]  pnt=[-0.70,-0.70]
+     tree[5]  -> LEAF  dim=0  [P,L,R]=[2,10,11]  pnt=[-0.40,-0.40]
+     tree[6]  -> LEAF  dim=0  [P,L,R]=[3,12,13]  pnt=[-0.10,-0.10]
+     tree[7]  -> LEAF  dim=0  [P,L,R]=[3,14,15]  pnt=[0.20,0.20]
+     */
+    /*
+    if (n_idx == 1) {
+        node.leaf  = 0;
+        node.dim   = 0;
+        node.pnt   = vec2(-0.10,-0.10);
+    } else if (n_idx == 2) {
+        node.leaf  = 0;
+        node.dim   = 1;
+        node.pnt   = vec2(-0.40,-0.40);
+    } else if (n_idx == 3) {
+        node.leaf  = 0;
+        node.dim   = 1;
+        node.pnt   = vec2(0.20,0.20);
+    }else if (n_idx == 4) {
+        node.leaf  = 1;
+        node.dim   = 0;
+        node.pnt   = vec2(-0.70,-0.70);
+    }else if (n_idx == 5) {
+        node.leaf  = 1;
+        node.dim   = 0;
+        node.pnt   = vec2(-0.40,-0.40);
+    } else if (n_idx == 6) {
+        node.leaf  = 1;
+        node.dim   = 0;
+        node.pnt   = vec2(-0.10,-0.10);
+    }else if (n_idx == 7) {
+        node.leaf  = 1;
+        node.dim   = 0;
+        node.pnt   = vec2(0.20,0.20);
+    } else {
+        node.leaf  = 0;
+        node.dim   = 0;
+        node.pnt   = vec2(0, 0);
+    }
+    */
+    
+    int MAX_NUMBER = 16384;
+    int  BIT_LEAF = 0x80; //    31
+    int  BIT_DIM  = 0x80;
+    int  BIT_SIGN_X  = 0x80; //    30
+    int  BIT_SIGN_Y  = 0x80;
+    int  BIT_NUMBER_BEGIN  = 0x7F;
+    int  BIT_NUMBER_END  = 0x7F80;
+    int  BIT_NUMBER_CONVERT  = 0x7F;
+    
+    float index = n_idx;
+    vec4 data = texture2D(vertexTexture, vec2(index/tex_kdtree_width, 1));
+    
+    data.r *= 255; data.g *= 255; data.b *= 255; data.a *= 255;
+    
+    int r_n = int(data.r);
+    int g_n = int(data.g);
+    int b_n = int(data.b);
+    int a_n = int(data.a);
+    
+    node.leaf = (r_n & BIT_LEAF) > 0 ? 1 : 0;
+    node.dim = (g_n & BIT_DIM) > 0 ? 1 : 0;
+    int sign_x = (b_n & BIT_SIGN_X) > 0 ? -1 : 1 ;
+    int sign_y = (a_n & BIT_SIGN_Y) > 0 ? -1 : 1 ;
+    
+    int part_1 = r_n & BIT_NUMBER_CONVERT;
+    int part_2 = (g_n & BIT_NUMBER_CONVERT) << 7;
+    
+    float x = part_1 + part_2;
+    
+    part_1 = b_n & BIT_NUMBER_CONVERT;
+    part_2 = (a_n & BIT_NUMBER_CONVERT) << 7;
+    
+    float y = part_1 + part_2;
+    
+    float inverse = 1./ MAX_NUMBER;
+    
+    x *= inverse;
+    y *= inverse;
+    node.pnt   = vec2(sign_x * x,sign_y * y);
+    node.index = n_idx;
+    //node.p.x = sign_x * x;
+    //node.p.y = sign_y * y;
+    
+    //return node;
+
+    
+
+}
+
+
+
+void updateMinDis(inout NN nn, const Node node) {
+    float tmp = distance(node.pnt, nn.pnt);
+    if (tmp < nn.dis) {
+        nn.dis = tmp;
+        nn.parent = node.index;
+    }
+    //nn.dis = min( nn.dis, distance(node.pnt, nn.pnt) );
+}
+
+float planeDistance(const NN nn, const Node node){
+    vec2 d = nn.pnt-node.pnt;
+    return (node.dim == 0) ? d.x : d.y; // normal distance to plane, in split-dimension
+    //  return mix(d.x, d.y, float(node.dim)); // recommended ?!?
+}
+
+//
+// NEAREST NEIGHBOR SEARCH
+//
+// general algorithm:
+// 1) while traversing down, always choose half-space [HS] the point is in
+// 2) while traversing back, check if current min distance is greater
+//    than normal distance to split plane. if so, check the other HS too.
+//
+// instead of using a stack, i use an index-pointer-based iterating process
+// by checking/modifying a bit-mask (... 2^depth) to avoid checking the same
+// HS again and again (endless recursion). This is BY FAR! the best solution
+// when using GLSL-ES 1.0, in GLSL a stackbased solution is probably better.
+void getNearestNeighbor(inout NN nn){
+    
+    Node node;
+    bool down  = true;
+    int  n_idx = 1; // 1 = root
+    int  depth = 1; // current depth (power of 2 --> bit indicates depth)
+    int  dcode = 0; // depth-bits inidicate checked HalfSpaces
+    
+    for(int i = 0; i < 500; i++){                    // constant loop (GL ES)
+        
+        getNode(n_idx, node);                          // get node from texture
+        float pd = planeDistance(nn, node);            // normal dist to split plane
+        
+        if(down){                                      // if traversing down
+            if( down = (node.leaf == 0) ){               //   if not leaf
+                depth = LS_01(depth);                      //     incr depth (go down)
+                n_idx = (pd < 0.0) ? L(n_idx) : R(n_idx);  //     get child
+            } else {                                     //   else (=leaf)
+                updateMinDis(nn, node);                    //     update min distance
+                depth = RS_01(depth);                      //     decr depth (go up now)
+                n_idx = P(n_idx);                          //     get parent
+            }
+        } else {                                       // else (=undwinding)
+            if(down = ((dcode < depth) &&                //   if not checked yet
+                       (abs(pd) < nn.dis)))              //   AND overlapping
+            {                                            //     --> check (other) HS
+                dcode += depth;                            //     set depth-bit
+                depth  = LS_01(depth);                     //     incr depth (go down)
+                n_idx  = (pd < 0.0) ? R(n_idx) : L(n_idx); //     get (other) child
+            } else {                                     //   else (=undwinding)
+                dcode -= (dcode < depth) ? 0 : depth;      //     clear depth-bit
+                depth  = RS_01(depth);                     //     decr depth (go up)
+                n_idx  = P(n_idx);                         //     get parent
+            }
+        }
+        
+        if(depth == 0) break; // THIS is the end of the nearest neighbor search.
+    }
+}
+
+void main(void) {
+    
+    NN nn = NN(vec2(vsoPosition.x, vsoPosition.y), 50000000.0, 1); // init nearest neighbor values
+    getNearestNeighbor(nn);              // kd-tree nearest neighbor search
+    //int n_idx = 1;
+    //Node node;
+    //getNode(n_idx, node);
+    
+    
+    gl_FragColor = vec4(nn.dis , 0, 0, 1. );
+    vec4 color;
+    if (nn.dis < 0.01) {
+        color = vec4(1,0,0,1);
+    } else {
+        color = vec4(nn.parent / 10., nn.parent / 10., nn.parent / 10., 1);
+    }
+    
+    //gl_FragColor = color;
+
+    
+    //int i, c=0;
+    
+    //float min = length(pointPositions[0] - vsoPosition), l;
+    
+    //float index = 3;
+    //vec4 color = texture2D(vertexTexture, vec2(index/tex_kdtree_width, 1));
+    
+    //int number = int(color.a * 255.);
+    
+    //for(i = 1; i < number; i++){
+    //    l = length(vsoPosition - pointPositions[i]);
+    //    if (l < min){ min = l; c = i;}
+    //}
+    
+    //gl_FragColor = length(min) > 0.01
+    //    ? vec4(pointColors[c], 1.0)
+    //    : vec4(1.,0,0, 1.0);
+    
+    
+    
+    
+    //gl_FragColor = vec4(color.r,color.g,color.b, 1.0);
 }
