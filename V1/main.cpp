@@ -41,7 +41,6 @@ int main( void )
     // Get a handle for our buffers
     GLuint vsiPosition = glGetAttribLocation(programID, "vsiPosition");
     GLuint pointPositions = glGetUniformLocation(programID, "pointPositions");
-    GLuint pointColors = glGetUniformLocation(programID, "pointColors");
     GLuint kdTreeSize = glGetUniformLocation(programID, "UN_SAMP_KDTREE_SIZE");
     
     // Model matrix : an identity matrix (model will be at the origin)
@@ -58,8 +57,6 @@ int main( void )
     };
     
     glm::vec3 * pointNodePositions;
-    glm::vec3 * pointNodeColors;
-    
     
     Points points(numberOfPoints);
     
@@ -135,14 +132,12 @@ int main( void )
         points.applyMove();
         
         pointNodePositions = points.getPointsPositions();
-        pointNodeColors = points.getPointsColors();
         // our mouse
         if (useMouse) {
             pointNodePositions[numberOfPoints - 1] = OpenGLHelper::getMousePosition(window);
         }
         
         glUniform3fv(pointPositions, numberOfPoints, glm::value_ptr(pointNodePositions[0]));
-        glUniform3fv(pointColors, numberOfPoints, glm::value_ptr(pointNodeColors[0]));
         
         // 1rst attribute buffer : vertices
         glEnableVertexAttribArray(vsiPosition);
