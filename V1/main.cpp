@@ -28,12 +28,15 @@ const bool printLoopTime = true;
 
 int main( void )
 {
+    
     if (!OpenGLHelper::initGLFWWindow(window)) {
         return 1;
     }
     
+    OpenGLHelper helper(printFPS, printLoopTime);
+
     // Create and compile our GLSL program from the shaders
-    GLuint programID = OpenGLHelper::loadShaders(
+    GLuint programID = helper.loadShaders(
         "TransformVertexShader.vertexshader",
         "ColorFragmentShader.fragmentshader"
     );
@@ -55,13 +58,12 @@ int main( void )
     glBindBuffer(GL_ARRAY_BUFFER, vertexbuffer);
     glBufferData(GL_ARRAY_BUFFER, sizeof(g_vertex_buffer_data), g_vertex_buffer_data, GL_STATIC_DRAW);
     
-    GLuint vertexTexture;
     
     KDTree tree;
     
     double lastTimeTree = glfwGetTime();
     
-    OpenGLHelper helper(printFPS, printLoopTime);
+    
 
     do{
         helper.registerLoop();
@@ -81,16 +83,6 @@ int main( void )
         
         //printf("%f time for tree \n", currentTimeTree - lastTimeTree);
         
-            glGenTextures(1, &vertexTexture);
-            glActiveTexture(GL_TEXTURE0);
-            glBindTexture(GL_TEXTURE_2D, vertexTexture);
-            glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, n, 1, 0, GL_RGBA, GL_FLOAT, data);
-        
-            glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
-            glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
-        glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
-        glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
-        
         
         // Clear the screen
         glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
@@ -98,7 +90,9 @@ int main( void )
         // Use our shader
         glUseProgram(programID);
         
-        glUniform1i(glGetUniformLocation(programID, "vertexTexture"), 0);
+                
+        helper.passTextureToShader(n, data);
+        
         glUniform2f(glGetUniformLocation(programID, "UN_SAMP_KDTREE_SIZE"), double(n), 1.);
 
 

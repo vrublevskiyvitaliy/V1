@@ -75,6 +75,24 @@ glm::vec3 OpenGLHelper::getMousePosition(GLFWwindow* window)
     return mouse;
 }
 
+void OpenGLHelper::passTextureToShader(int n, float * data)
+{
+    GLuint vertexTexture;
+    
+    glGenTextures(1, &vertexTexture);
+    glActiveTexture(GL_TEXTURE0);
+    glBindTexture(GL_TEXTURE_2D, vertexTexture);
+    glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, n, 1, 0, GL_RGBA, GL_FLOAT, data);
+    
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
+    
+    glUniform1i(glGetUniformLocation(programID, "vertexTexture"), 0);
+    
+}
+
 bool OpenGLHelper::initGLFWWindow(GLFWwindow * & window)
 {
     // Initialise GLFW
@@ -192,26 +210,26 @@ GLuint OpenGLHelper::loadShaders(const char * vertex_file_path,const char * frag
     
     // Link the program
     printf("Linking program\n");
-    GLuint ProgramID = glCreateProgram();
-    glAttachShader(ProgramID, VertexShaderID);
-    glAttachShader(ProgramID, FragmentShaderID);
-    glLinkProgram(ProgramID);
+    programID = glCreateProgram();
+    glAttachShader(programID, VertexShaderID);
+    glAttachShader(programID, FragmentShaderID);
+    glLinkProgram(programID);
     
     // Check the program
-    glGetProgramiv(ProgramID, GL_LINK_STATUS, &Result);
-    glGetProgramiv(ProgramID, GL_INFO_LOG_LENGTH, &InfoLogLength);
+    glGetProgramiv(programID, GL_LINK_STATUS, &Result);
+    glGetProgramiv(programID, GL_INFO_LOG_LENGTH, &InfoLogLength);
     if ( InfoLogLength > 0 ){
         std::vector<char> ProgramErrorMessage(InfoLogLength+1);
-        glGetProgramInfoLog(ProgramID, InfoLogLength, NULL, &ProgramErrorMessage[0]);
+        glGetProgramInfoLog(programID, InfoLogLength, NULL, &ProgramErrorMessage[0]);
         printf("%s\n", &ProgramErrorMessage[0]);
     }
     
     
-    glDetachShader(ProgramID, VertexShaderID);
-    glDetachShader(ProgramID, FragmentShaderID);
+    glDetachShader(programID, VertexShaderID);
+    glDetachShader(programID, FragmentShaderID);
     
     glDeleteShader(VertexShaderID);
     glDeleteShader(FragmentShaderID);
     
-    return ProgramID;
+    return programID;
 }
