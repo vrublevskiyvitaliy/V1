@@ -10,9 +10,10 @@
 #define KDTreeNode_hpp
 
 #include <stdio.h>
-#include "Point.hpp"
 
 #include <cmath>
+#include <glm/glm.hpp>
+
 
 struct KDTreeNode {
     
@@ -26,7 +27,7 @@ struct KDTreeNode {
     
     unsigned int MAX_NUMBER = 16384;
     
-    Point p;
+    glm::vec2 p;
     int dim;
     int index;
     bool isLeaf;

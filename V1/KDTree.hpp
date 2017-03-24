@@ -16,8 +16,9 @@
 #include <cmath>
 
 #include "Points.hpp"
-#include "Point.hpp"
 #include "KDTreeNode.hpp"
+
+#include <glm/glm.hpp>
 
 
 class KDTree {
@@ -26,7 +27,7 @@ class KDTree {
     
     int max_depth = 0;
     
-    Point * points = NULL;
+    glm::vec2 * points = NULL;
     
     void free_data();
     Points * p = NULL;
@@ -48,8 +49,8 @@ public:
     void initKdTree(unsigned long num_points);
     void printTree();
     
-    void build(std::vector<Point> v_points, bool is_debug = true);
-    void buildIterative(std::vector<Point> v_points);
+    void build(std::vector<glm::vec2> v_points, bool is_debug = true);
+    void buildIterative(std::vector<glm::vec2> v_points);
 
 
 };

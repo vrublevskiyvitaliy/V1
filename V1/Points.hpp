@@ -31,8 +31,8 @@ private:
     int numberOfPoints;
     Random random;
     
-    glm::vec3 pointsPositions[MAX_POINTS_NUMBER];
-    glm::vec3 pointsMoves[MAX_POINTS_NUMBER];
+    glm::vec2 pointsPositions[MAX_POINTS_NUMBER];
+    glm::vec2 pointsMoves[MAX_POINTS_NUMBER];
     glm::vec3 pointsColors[MAX_POINTS_NUMBER];
 public:
     
@@ -40,8 +40,8 @@ public:
     void applyMove();
     void updateMoves();
     int getNumberOfPoints();
-    glm::vec3 * getPointsPositions();
-    glm::vec3 * getPointsMoves();
+    glm::vec2 * getPointsPositions();
+    glm::vec2 * getPointsMoves();
     glm::vec3 * getPointsColors();
 private:
     void updateIfOutOfArea();

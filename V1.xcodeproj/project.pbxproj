@@ -34,7 +34,6 @@
 /* Begin PBXFileReference section */
 		F11EB4AB1E85818C000EE6A5 /* KDTreeNode.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = KDTreeNode.cpp; sourceTree = "<group>"; };
 		F11EB4AC1E85818C000EE6A5 /* KDTreeNode.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = KDTreeNode.hpp; sourceTree = "<group>"; };
-		F11EB4AF1E8581CD000EE6A5 /* Point.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = Point.hpp; sourceTree = "<group>"; };
 		F14315781E60C61A00D3A889 /* RandomClass.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = RandomClass.cpp; sourceTree = "<group>"; };
 		F14315791E60C61A00D3A889 /* RandomClass.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = RandomClass.hpp; sourceTree = "<group>"; };
 		F143157B1E60CA3200D3A889 /* Points.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Points.cpp; sourceTree = "<group>"; };
@@ -85,7 +84,6 @@
 				F143157C1E60CA3200D3A889 /* Points.hpp */,
 				F1A26C311E806D6200A4E689 /* KDTree.hpp */,
 				F11EB4AC1E85818C000EE6A5 /* KDTreeNode.hpp */,
-				F11EB4AF1E8581CD000EE6A5 /* Point.hpp */,
 				F18B3A071E7DAB4400682197 /* OpenGLHelper.hpp */,
 				F14315791E60C61A00D3A889 /* RandomClass.hpp */,
 			);

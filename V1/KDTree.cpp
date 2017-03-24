@@ -17,8 +17,8 @@ void KDTree::setData()
 {
     //free_data();
     p->applyMove();
-    glm::vec3 * pointsPositions = p->getPointsPositions();
-    std::vector<Point> points(num_point);
+    glm::vec2 * pointsPositions = p->getPointsPositions();
+    std::vector<glm::vec2> points(num_point);
     for (int i = 0; i < num_point; i++) {
         points[i].x = pointsPositions[i].x;
         points[i].y = pointsPositions[i].y;
@@ -132,7 +132,7 @@ void KDTree::printTree() {
     }
 }
 
-void KDTree::build(std::vector<Point> v_points, bool is_debug) {
+void KDTree::build(std::vector<glm::vec2> v_points, bool is_debug) {
     
     //this.points = points.slice(0); // make sure original array doesn't get messed up
     
@@ -146,19 +146,19 @@ void KDTree::build(std::vector<Point> v_points, bool is_debug) {
 }
 
 
-bool sort_x (Point i, Point j) { return (i.x < j.x); }
-bool sort_y (Point i, Point j) { return (i.y < j.y); }
+bool sort_x (glm::vec2 i, glm::vec2 j) { return (i.x < j.x); }
+bool sort_y (glm::vec2 i, glm::vec2 j) { return (i.y < j.y); }
 
-void KDTree::buildIterative(std::vector<Point> v_points) {
+void KDTree::buildIterative(std::vector<glm::vec2> v_points) {
     int ptr_T = 0; // tree pointer for compressed tree-nodes (integer)
     int ptr_P = 1; // stack pointer for point-sets
     
-    std::vector< std::vector<Point> > stack_P(v_points.size() * v_points.size()); // FIFO
+    std::vector< std::vector<glm::vec2> > stack_P(v_points.size() * v_points.size()); // FIFO
     stack_P[ptr_P++] = v_points;
     
     while(ptr_T++ < num_nodes) {
         
-        std::vector<Point> p_v = stack_P[ptr_T];
+        std::vector<glm::vec2> p_v = stack_P[ptr_T];
         
         if(!p_v.size()) continue;
         
@@ -180,8 +180,8 @@ void KDTree::buildIterative(std::vector<Point> v_points) {
             //this.quick_sort.sort(pnts, kd_tree[ptr_T].dim);
             
             //std::vector<Point> v_1(p_v.begin(), p_v.begin() + m);
-            stack_P[ptr_P++] = std::vector<Point> (p_v.begin(), p_v.begin() + m);
-            stack_P[ptr_P++] = std::vector<Point> (p_v.begin() + m, p_v.end());
+            stack_P[ptr_P++] = std::vector<glm::vec2> (p_v.begin(), p_v.begin() + m);
+            stack_P[ptr_P++] = std::vector<glm::vec2> (p_v.begin() + m, p_v.end());
         } else { // leaf
             ptr_P += 2;
             kd_tree[ptr_T].isLeaf = 1;
