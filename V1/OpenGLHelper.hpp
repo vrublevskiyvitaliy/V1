@@ -13,14 +13,16 @@
 
 #include <glm/glm.hpp>
 
+// Include GLEW
+#include <GL/glew.h>
+
+// Include GLFW
 #include <GLFW/glfw3.h>
 
 class OpenGLHelper{
 public:
-    OpenGLHelper();
-    glm::vec3 getMousePosition(GLFWwindow* window);
+    static glm::vec3 getMousePosition(GLFWwindow* window);
+    static bool initGLFWWindow(GLFWwindow * & window);
 };
-
-
 
 #endif /* OpenGLHelper_hpp */

@@ -9,7 +9,8 @@
 
 // Include GLFW
 #include <GLFW/glfw3.h>
-GLFWwindow* window;
+
+GLFWwindow * window;
 
 // Include GLM
 #include <glm/glm.hpp>
@@ -25,58 +26,10 @@ using namespace glm;
 const int numberOfPoints = 100;
 const bool useMouse = false;
 
-int init()
-{
-    // Initialise GLFW
-    if( !glfwInit() )
-    {
-        fprintf( stderr, "Failed to initialize GLFW\n" );
-        getchar();
-        return -1;
-    }
-    
-    glfwWindowHint(GLFW_SAMPLES, 4);
-    glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 2);
-    glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 1);
-    
-    
-    // Open a window and create its OpenGL context
-    window = glfwCreateWindow( 1024, 768, "Tutorial 04 - Colored Cube", NULL, NULL);
-    if( window == NULL ){
-        fprintf( stderr, "Failed to open GLFW window. If you have an Intel GPU, they are not 3.3 compatible. Try the 2.1 version of the tutorials.\n" );
-        getchar();
-        glfwTerminate();
-        return -1;
-    }
-    glfwMakeContextCurrent(window);
-    
-    // Initialize GLEW
-    if (glewInit() != GLEW_OK) {
-        fprintf(stderr, "Failed to initialize GLEW\n");
-        getchar();
-        glfwTerminate();
-        return -1;
-    }
-    
-    // Ensure we can capture the escape key being pressed below
-    glfwSetInputMode(window, GLFW_STICKY_KEYS, GL_TRUE);
-    
-    // Dark blue background
-    glClearColor(0.0f, 0.0f, 0.4f, 0.0f);
-    
-    // Enable depth test
-    glEnable(GL_DEPTH_TEST);
-    // Accept fragment if it closer to the camera than the former one
-    glDepthFunc(GL_LESS);
-    
-    return 0;
-}
-
 int main( void )
-{    
-    int code = init();
-    if (code) {
-        return code;
+{
+    if (!OpenGLHelper::initGLFWWindow(window)) {
+        return 1;
     }
     
     // Create and compile our GLSL program from the shaders
@@ -107,7 +60,7 @@ int main( void )
     glm::vec3 * pointNodePositions;
     glm::vec3 * pointNodeColors;
     
-    OpenGLHelper helper;
+    
     Points points(numberOfPoints);
     
     GLuint vertexbuffer;
@@ -185,7 +138,7 @@ int main( void )
         pointNodeColors = points.getPointsColors();
         // our mouse
         if (useMouse) {
-            pointNodePositions[numberOfPoints - 1] = helper.getMousePosition(window);
+            pointNodePositions[numberOfPoints - 1] = OpenGLHelper::getMousePosition(window);
         }
         
         glUniform3fv(pointPositions, numberOfPoints, glm::value_ptr(pointNodePositions[0]));
