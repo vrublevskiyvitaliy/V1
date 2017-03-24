@@ -17,15 +17,15 @@
 
 class Points{
 public:
-    const static int MAX_POINTS_NUMBER = 1000;
+    const static int MAX_POINTS_NUMBER = 10000;
 
 private:
    
     const static int DEFAULT_POINTS_NUMBER = 100;
     const static int DEFAULT_CHANGE_MOVE_ITERATIONS = 1000;
     
-    const float upperBoundArea = 1;
-    const float lowerBoundArea = -1;
+    const float upperBoundArea = 0.9;
+    const float lowerBoundArea = -0.9;
     int numberOfApliedMoves = 0;
     
     int numberOfPoints;
@@ -39,6 +39,7 @@ public:
     Points(int number);
     void applyMove();
     void updateMoves();
+    int getNumberOfPoints();
     glm::vec3 * getPointsPositions();
     glm::vec3 * getPointsMoves();
     glm::vec3 * getPointsColors();

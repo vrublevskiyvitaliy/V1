@@ -40,6 +40,10 @@ void Points::initPoints() {
     }
 }
 
+int Points::getNumberOfPoints() {
+    return numberOfPoints;
+}
+
 void Points::applyMove() {
     for (int i = 0; i < numberOfPoints; i++ )
     {
