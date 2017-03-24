@@ -11,6 +11,8 @@
 KDTree::KDTree(int n) {
     p = new Points(n);
     num_point = n;
+    
+    initKdTree(num_point);
 }
 
 void KDTree::setData()
@@ -72,9 +74,7 @@ void KDTree::initKdTree(unsigned long num_points) {
     if( tmp_num_nodes != this->num_nodes || this->kd_tree == NULL){
         this->max_depth  = tmp_max_depth;
         this->num_nodes  = tmp_num_nodes;
-        //this->buffer     = new ArrayBuffer(this.num_nodes*4);
         this->kd_tree    = new KDTreeNode[num_nodes ];
-        //this->uint8Array = new Uint8Array(this.buffer);
     }
     
     int max   = 2;
@@ -116,7 +116,6 @@ void KDTree::printTree() {
     for(int i = 0; i < num_nodes; i++) {
         if(kd_tree[i].isEmpty){
             printf("tree[%d]  null\n", i);
-            //std::cout << "tree[" << i << "]  null" << std::endl;
         } else {
             int leaf     = kd_tree[i].isLeaf;
             float x      = kd_tree[i].p.x;
@@ -134,10 +133,6 @@ void KDTree::printTree() {
 
 void KDTree::build(std::vector<glm::vec2> v_points, bool is_debug) {
     
-    //this.points = points.slice(0); // make sure original array doesn't get messed up
-    
-    initKdTree(v_points.size());
-   
     //this.buildRecursiveFast(1, spoints, 0, number_points-1 );
     buildIterative(v_points);
     if(is_debug){
@@ -167,9 +162,6 @@ void KDTree::buildIterative(std::vector<glm::vec2> v_points) {
         
         if( e > 1 ){ // not a leaf
             
-            //if( dim == 0) this.quicksortX(points, lo, hi);
-            //if( dim == 1) this.quicksortY(points, lo, hi);
-            
             if (kd_tree[ptr_T].dim == 0) {
                 //sort x
                 std::sort (p_v.begin(), p_v.end(), sort_x);
@@ -177,9 +169,7 @@ void KDTree::buildIterative(std::vector<glm::vec2> v_points) {
                 //sort y
                 std::sort (p_v.begin(), p_v.end(), sort_y);
             }
-            //this.quick_sort.sort(pnts, kd_tree[ptr_T].dim);
             
-            //std::vector<Point> v_1(p_v.begin(), p_v.begin() + m);
             stack_P[ptr_P++] = std::vector<glm::vec2> (p_v.begin(), p_v.begin() + m);
             stack_P[ptr_P++] = std::vector<glm::vec2> (p_v.begin() + m, p_v.end());
         } else { // leaf
