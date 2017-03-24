@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		F11EB4AD1E85818C000EE6A5 /* KDTreeNode.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F11EB4AB1E85818C000EE6A5 /* KDTreeNode.cpp */; };
 		F143157A1E60C61A00D3A889 /* RandomClass.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F14315781E60C61A00D3A889 /* RandomClass.cpp */; };
 		F143157D1E60CA3200D3A889 /* Points.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F143157B1E60CA3200D3A889 /* Points.cpp */; };
 		F16241CD1E5AD7F30087E711 /* main.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F16241CC1E5AD7F30087E711 /* main.cpp */; };
@@ -15,6 +16,8 @@
 		F16241E11E5AD8C10087E711 /* libglfw.3.2.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = F16241E01E5AD8C10087E711 /* libglfw.3.2.dylib */; };
 		F16241E81E5AE2620087E711 /* shader.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F16241E61E5AE2620087E711 /* shader.cpp */; };
 		F18B3A081E7DAB4400682197 /* OpenGLHelper.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F18B3A061E7DAB4400682197 /* OpenGLHelper.cpp */; };
+		F1A26C321E806D6200A4E689 /* KDTree.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F1A26C301E806D6200A4E689 /* KDTree.cpp */; };
+		F1A26C341E81DFBC00A4E689 /* test_kd_tree.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F1A26C331E81DFBC00A4E689 /* test_kd_tree.cpp */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -30,6 +33,9 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		F11EB4AB1E85818C000EE6A5 /* KDTreeNode.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = KDTreeNode.cpp; sourceTree = "<group>"; };
+		F11EB4AC1E85818C000EE6A5 /* KDTreeNode.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = KDTreeNode.hpp; sourceTree = "<group>"; };
+		F11EB4AF1E8581CD000EE6A5 /* Point.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = Point.hpp; sourceTree = "<group>"; };
 		F14315781E60C61A00D3A889 /* RandomClass.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = RandomClass.cpp; sourceTree = "<group>"; };
 		F14315791E60C61A00D3A889 /* RandomClass.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = RandomClass.hpp; sourceTree = "<group>"; };
 		F143157B1E60CA3200D3A889 /* Points.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Points.cpp; sourceTree = "<group>"; };
@@ -45,6 +51,9 @@
 		F16241EC1E5AEADF0087E711 /* TransformVertexShader.vertexshader */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = TransformVertexShader.vertexshader; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.c; };
 		F18B3A061E7DAB4400682197 /* OpenGLHelper.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = OpenGLHelper.cpp; sourceTree = "<group>"; };
 		F18B3A071E7DAB4400682197 /* OpenGLHelper.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = OpenGLHelper.hpp; sourceTree = "<group>"; };
+		F1A26C301E806D6200A4E689 /* KDTree.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = KDTree.cpp; sourceTree = "<group>"; };
+		F1A26C311E806D6200A4E689 /* KDTree.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = KDTree.hpp; sourceTree = "<group>"; };
+		F1A26C331E81DFBC00A4E689 /* test_kd_tree.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = test_kd_tree.cpp; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -104,6 +113,12 @@
 				F16241EE1E5AECCB0087E711 /* common */,
 				F16241ED1E5AECC30087E711 /* shader */,
 				F16241CC1E5AD7F30087E711 /* main.cpp */,
+				F1A26C331E81DFBC00A4E689 /* test_kd_tree.cpp */,
+				F1A26C301E806D6200A4E689 /* KDTree.cpp */,
+				F11EB4AB1E85818C000EE6A5 /* KDTreeNode.cpp */,
+				F11EB4AC1E85818C000EE6A5 /* KDTreeNode.hpp */,
+				F1A26C311E806D6200A4E689 /* KDTree.hpp */,
+				F11EB4AF1E8581CD000EE6A5 /* Point.hpp */,
 				F143157E1E60CB0800D3A889 /* source */,
 				F143157F1E60CB1100D3A889 /* header */,
 			);
@@ -197,8 +212,11 @@
 			files = (
 				F143157D1E60CA3200D3A889 /* Points.cpp in Sources */,
 				F143157A1E60C61A00D3A889 /* RandomClass.cpp in Sources */,
+				F1A26C341E81DFBC00A4E689 /* test_kd_tree.cpp in Sources */,
 				F16241E81E5AE2620087E711 /* shader.cpp in Sources */,
+				F11EB4AD1E85818C000EE6A5 /* KDTreeNode.cpp in Sources */,
 				F18B3A081E7DAB4400682197 /* OpenGLHelper.cpp in Sources */,
+				F1A26C321E806D6200A4E689 /* KDTree.cpp in Sources */,
 				F16241CD1E5AD7F30087E711 /* main.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
