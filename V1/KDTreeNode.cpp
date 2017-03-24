@@ -32,28 +32,18 @@ void KDTreeNode::setRGBA() {
     float inverse = 1./ MAX_NUMBER;
     long long x_number = (fabs(p.x) / inverse);
     long long y_number = (fabs(p.y) / inverse);
-    //std::cout<<x_number<<std::endl;
-    //std::cout<<std::bitset<16>((long long)x_number)<<std::endl;
-    //std::cout<<std::bitset<16>((int)y_number)<<std::endl;
     
     long long r_n =(x_number & BIT_NUMBER_BEGIN );
-    //std::cout<< " R_N\n" << std::bitset<16>((long long)r_n)<<std::endl;
     r += r_n;
     
     long long g_n =(x_number & BIT_NUMBER_END );
-    //std::cout<< " G_N\n" << std::bitset<16>((long long)g_n)<<std::endl;
     g_n >>= 7;
-    //std::cout<< " G_N\n" << std::bitset<16>((long long)g_n)<<std::endl;
     
     g += g_n;
-    //std::cout<<std::bitset<8>((int)g)<<std::endl;
     
     b += (y_number & BIT_NUMBER_BEGIN );
-    //std::cout<<std::bitset<8>((int)b)<<std::endl;
     
     a += (y_number & BIT_NUMBER_END) >> 7;
-    //std::cout<<std::bitset<8>((int)a)<<std::endl;
-    
     
     r /= 255.; g /= 255.; b /= 255.; a /= 255.;
 }
@@ -67,7 +57,7 @@ KDTreeNode KDTreeNode::getNodeByRGBA(float r, float g, float b, float a) {
     long long a_n = (int)a;
     
     KDTreeNode node;
-    //std::cout<<std::bitset<8>(g_n)<<std::endl;
+
     node.isLeaf = r_n & BIT_LEAF;
     node.dim = (g_n & BIT_DIM) > 1 ? 1 : 0;
     
@@ -76,13 +66,9 @@ KDTreeNode KDTreeNode::getNodeByRGBA(float r, float g, float b, float a) {
     
     long long part_1 = r_n & BIT_NUMBER_CONVERT;
     long long part_2 = (g_n & BIT_NUMBER_CONVERT) << 7;
-    //std::cout<<std::bitset<16>((long long)part_1)<<std::endl;
-    //std::cout<<std::bitset<16>((long long)part_2)<<std::endl;
     
     float x = part_1 + part_2;
-    //std::cout<<x<<std::endl;
-    
-    //std::cout<<std::bitset<16>((int)x)<<std::endl;
+
     
     part_1 = b_n & BIT_NUMBER_CONVERT;
     part_2 = (a_n & BIT_NUMBER_CONVERT) << 7;
