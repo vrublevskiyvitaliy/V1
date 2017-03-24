@@ -147,7 +147,7 @@ OpenGLHelper::~OpenGLHelper()
 }
 
 void OpenGLHelper::passKDTreeSizeToShader(int n) {
-    glUniform2f(glGetUniformLocation(programID, "UN_SAMP_KDTREE_SIZE"), double(n), 1.);
+    glUniform2f(glGetUniformLocation(programID, "KDTREE_SIZE"), double(n), 1.);
 }
 
 

@@ -26,10 +26,10 @@ uniform sampler2D texture;
 #define POINT_PREC 0.1 // for scale point coords
 
 
-uniform vec2 UN_SAMP_KDTREE_SIZE;
+uniform vec2 KDTREE_SIZE;
 
-vec2 VEC2_KDTREE_SIZE_INV = 1.0 / (UN_SAMP_KDTREE_SIZE); // precompute textcoord scaling
-int  tex_kdtree_width     = int(UN_SAMP_KDTREE_SIZE.x);  // integer-size for texture look up (to get texture row)
+vec2 KDTREE_SIZE_INV = 1.0 / (KDTREE_SIZE); // precompute textcoord scaling
+int  tex_kdtree_width     = int(KDTREE_SIZE.x);  // integer-size for texture look up (to get texture row)
 
 struct Node{      // Kd-Tree Node
     vec2 pnt;       // node point
@@ -55,7 +55,7 @@ void getNode(const int n_idx, inout Node node){
     int  BIT_NUMBER_CONVERT  = 0x7F;
     
     float index = n_idx;
-    vec4 data = texture2D(texture, vec2(index/tex_kdtree_width, 1));
+    vec4 data = texture2D(texture, vec2(index * KDTREE_SIZE_INV.x, 1));
     
     data.r *= 255; data.g *= 255; data.b *= 255; data.a *= 255;
     
