@@ -3,7 +3,7 @@
 
 varying vec3 vsoPosition;
 
-uniform sampler2D vertexTexture;
+uniform sampler2D texture;
 
 // Bit-Shifting
 #define SHIFT_15 0x8000
@@ -55,7 +55,7 @@ void getNode(const int n_idx, inout Node node){
     int  BIT_NUMBER_CONVERT  = 0x7F;
     
     float index = n_idx;
-    vec4 data = texture2D(vertexTexture, vec2(index/tex_kdtree_width, 1));
+    vec4 data = texture2D(texture, vec2(index/tex_kdtree_width, 1));
     
     data.r *= 255; data.g *= 255; data.b *= 255; data.a *= 255;
     

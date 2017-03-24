@@ -90,7 +90,7 @@ void OpenGLHelper::passTextureToShader(int n, std::vector<float> data)
     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
     
-    glUniform1i(glGetUniformLocation(programID, "vertexTexture"), 0);
+    glUniform1i(glGetUniformLocation(programID, "texture"), 0);
     
 }
 
@@ -146,7 +146,7 @@ OpenGLHelper::~OpenGLHelper()
     glfwTerminate();
 }
 
-void OpenGLHelper::gpassKDTreeSizeToShader(int n) {
+void OpenGLHelper::passKDTreeSizeToShader(int n) {
     glUniform2f(glGetUniformLocation(programID, "UN_SAMP_KDTREE_SIZE"), double(n), 1.);
 }
 
