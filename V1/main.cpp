@@ -23,7 +23,6 @@ using namespace glm;
 #include "OpenGLHelper.hpp"
 #include "KDTree.hpp"
 
-const int numberOfPoints = 100;
 const bool useMouse = false;
 
 int main( void )
@@ -35,17 +34,9 @@ int main( void )
     // Create and compile our GLSL program from the shaders
     GLuint programID = LoadShaders( "TransformVertexShader.vertexshader", "ColorFragmentShader.fragmentshader" );
     
-    // Get a handle for our "MVP" uniform
-    GLuint MatrixID = glGetUniformLocation(programID, "MVP");
-    
     // Get a handle for our buffers
     GLuint vsiPosition = glGetAttribLocation(programID, "vsiPosition");
     GLuint kdTreeSize = glGetUniformLocation(programID, "UN_SAMP_KDTREE_SIZE");
-    
-    // Model matrix : an identity matrix (model will be at the origin)
-    glm::mat4 Model      = glm::mat4(1.0f);
-    // Our ModelViewProjection : multiplication of our 3 matrices
-    glm::mat4 MVP        = Model; // Remember, matrix multiplication is the other way around
     
     // Our vertices of QUAD
     static const GLfloat g_vertex_buffer_data[] = {
@@ -54,8 +45,6 @@ int main( void )
         1.0f,  1.0f, 0.0f,
         -1.0f,  1.0f, 0.0f,
     };
-    
-    Points points(numberOfPoints);
     
     GLuint vertexbuffer;
     glGenBuffers(1, &vertexbuffer);
@@ -121,10 +110,6 @@ int main( void )
         
         glUniform1i(locTex, 0);
         glUniform2f(kdTreeSize, kdTreeSizeValue.x, kdTreeSizeValue.y);
-        
-        // Send our transformation to the currently bound shader,
-        // in the "MVP" uniform
-        glUniformMatrix4fv(MatrixID, 1, GL_FALSE, &MVP[0][0]);
 
 
         // 1rst attribute buffer : vertices
