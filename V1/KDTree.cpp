@@ -10,16 +10,16 @@
 
 KDTree::KDTree(int n) {
     p = new Points(n);
+    num_point = n;
 }
 
-void KDTree::setData(int n)
+void KDTree::setData()
 {
     //free_data();
     p->applyMove();
-    int nn = p->getNumberOfPoints();
     glm::vec3 * pointsPositions = p->getPointsPositions();
-    std::vector<Point> points(nn);
-    for (int i = 0; i < nn; i++) {
+    std::vector<Point> points(num_point);
+    for (int i = 0; i < num_point; i++) {
         points[i].x = pointsPositions[i].x;
         points[i].y = pointsPositions[i].y;
     }
@@ -50,30 +50,10 @@ int KDTree::get_r(int node_idx) {
     return (node_idx << 1) + 1;
 }
 
-
-int KDTree::is_leaf(int node_val) {
-    return (node_val & BIT_LEAF) >> 31;
-}
-int KDTree::get_dim(int node_val) {
-    return (node_val & BIT_DIM) >> 15;
-}
-int KDTree::get_px(int node_val) {
-    return (node_val & BIT_P_X) >> 16;
-}
-int KDTree::get_py(int node_val) {
-    return (node_val & BIT_P_Y) >> 0;
-}
-
 void KDTree::free_data() {
     
-    if (buffer) {
-        delete[] buffer;
-    }
     if (kd_tree) {
         delete[] kd_tree;
-    }
-    if (uint8Array) {
-        delete[] uint8Array;
     }
     if (points) {
         delete[] points;
