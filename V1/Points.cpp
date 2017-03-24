@@ -7,19 +7,16 @@
 //
 
 #include "Points.hpp"
-/*
-class Points{
-    int numberOfPoints;
-    const static int MAX_POINTS_NUMBER = 1000;
-    glm::vec3 pointsPositions[MAX_POINTS_NUMBER];
-    glm::vec3 pointsMoves[MAX_POINTS_NUMBER];
-    glm::vec3 pointsColors[MAX_POINTS_NUMBER];
-public:
-  */
+
 Points::Points(int number) {
-    numberOfPoints = number > 0 && number < MAX_POINTS_NUMBER
+    numberOfPoints = number > 0
         ? number
         : DEFAULT_POINTS_NUMBER;
+    
+    pointsPositions = std::vector<glm::vec2>(numberOfPoints);
+    pointsMoves = std::vector<glm::vec2>(numberOfPoints);
+    pointsColors = std::vector<glm::vec3>(numberOfPoints);
+    
     initPoints();
 }
 
@@ -28,16 +25,18 @@ void Points::initPoints() {
     {
         pointsPositions[i].x = random.getRandomPosition();
         pointsPositions[i].y = random.getRandomPosition();
-        pointsPositions[i].z = 0;
         
         pointsMoves[i].x = random.getRandomMove();
         pointsMoves[i].y = random.getRandomMove();
-        pointsMoves[i].z = 0;
         
         pointsColors[i].x = random.getRandom();
         pointsColors[i].y = random.getRandom();
         pointsColors[i].z = random.getRandom();
     }
+}
+
+int Points::getNumberOfPoints() {
+    return numberOfPoints;
 }
 
 void Points::applyMove() {
@@ -60,14 +59,15 @@ void Points::updateMoves() {
         pointsMoves[i].y = random.getRandomMove();
     }
 }
-glm::vec3 * Points::getPointsPositions() {
+std::vector<glm::vec2> Points::getPointsPositions() {
     return pointsPositions;
 }
 
-glm::vec3 * Points::getPointsMoves() {
+std::vector<glm::vec2> Points::getPointsMoves() {
     return pointsMoves;
 }
-glm::vec3 * Points::getPointsColors() {
+
+std::vector<glm::vec3> Points::getPointsColors() {
     return pointsColors;
 }
 

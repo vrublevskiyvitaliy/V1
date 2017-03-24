@@ -1,11 +1,9 @@
 #version 120
 
-uniform mat4 MVP;
-
-attribute vec3 vsiPosition;
-varying vec3 vsoPosition;
+attribute vec3 position;
+varying vec3 ourFragmentPosition;
 
 void main(void) {
-    vsoPosition = vsiPosition;
-    gl_Position = MVP * vec4(vsiPosition, 1.0);
+    ourFragmentPosition = position;
+    gl_Position = vec4(position, 1.0);
 }

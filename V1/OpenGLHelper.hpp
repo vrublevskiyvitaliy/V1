@@ -11,16 +11,50 @@
 
 #include <stdio.h>
 
+#include <string>
+#include <fstream>
+#include <vector>
+
 #include <glm/glm.hpp>
 
+// Include GLEW
+#include <GL/glew.h>
+
+// Include GLFW
 #include <GLFW/glfw3.h>
 
+
 class OpenGLHelper{
+    bool printFPS;
+    bool printLoopTime;
+    
+    double lastLoopTime;
+    double lastFPSTime;
+
+    int numberOfFrames;
+    
+    GLuint programID;
+    GLuint vertexbuffer;
 public:
-    OpenGLHelper();
-    glm::vec3 getMousePosition(GLFWwindow* window);
+    OpenGLHelper(bool _printFPS, bool _printLoopTime);
+    static glm::vec3 getMousePosition(GLFWwindow* window);
+    static bool initGLFWWindow(GLFWwindow * & window);
+    GLuint loadShaders(const char * vertex_file_path,const char * fragment_file_path);
+
+    void passTextureToShader(int n, std::vector<float> data);
+    
+    
+    void registerLoop();
+    void FPSCounter();
+    void loopTime();
+    
+    
+    void initVertexBuffer();
+    void drawInLoop(GLFWwindow* window);
+    
+    void passKDTreeSizeToShader(int n);
+    
+    ~OpenGLHelper();
 };
-
-
 
 #endif /* OpenGLHelper_hpp */
