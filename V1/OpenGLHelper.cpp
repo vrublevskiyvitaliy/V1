@@ -112,12 +112,12 @@ void OpenGLHelper::initVertexBuffer() {
 
 void OpenGLHelper::drawInLoop(GLFWwindow* window)
 {
-    GLuint vsiPosition = glGetAttribLocation(programID, "vsiPosition");
+    GLuint position = glGetAttribLocation(programID, "position");
     // 1rst attribute buffer : vertices
-    glEnableVertexAttribArray(vsiPosition);
+    glEnableVertexAttribArray(position);
     glBindBuffer(GL_ARRAY_BUFFER, vertexbuffer);
     glVertexAttribPointer(
-                          vsiPosition, // The attribute we want to configure
+                          position, // The attribute we want to configure
                           3,                           // size
                           GL_FLOAT,                    // type
                           GL_FALSE,                    // normalized?
@@ -128,7 +128,7 @@ void OpenGLHelper::drawInLoop(GLFWwindow* window)
     // Draw the QUADS
     glDrawArrays(GL_QUADS, 0, 4);
     
-    glDisableVertexAttribArray(vsiPosition);
+    glDisableVertexAttribArray(position);
     
     // Swap buffers
     glfwSwapBuffers(window);

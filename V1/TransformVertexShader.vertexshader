@@ -1,9 +1,9 @@
 #version 120
 
-attribute vec3 vsiPosition;
+attribute vec3 position;
 varying vec3 ourFragmentPosition;
 
 void main(void) {
-    ourFragmentPosition = vsiPosition;
-    gl_Position = vec4(vsiPosition, 1.0);
+    ourFragmentPosition = position;
+    gl_Position = vec4(position, 1.0);
 }
