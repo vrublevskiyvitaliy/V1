@@ -63,6 +63,7 @@ public:
     
     void buildIterative(std::vector<glm::vec2> v_points);
     void buildRecursive(int idx, std::vector<glm::vec2> points);
+    void buildRecursiveFast(int idx, std::vector<glm::vec2> pnts, int left, int right);
     
 };
 
