@@ -10,8 +10,15 @@
 
 #include "KDTree.hpp"
 
+#include <iostream>
+
+using namespace std;
+
+#include "QuickSort.hpp"
+
 int __main()
 {
+    QuickSort::testQuickSort(5, 0);
  /*
     KDTree tree(4);
     tree.setData();

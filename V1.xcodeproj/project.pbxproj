@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		F11EB4AD1E85818C000EE6A5 /* KDTreeNode.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F11EB4AB1E85818C000EE6A5 /* KDTreeNode.cpp */; };
+		F122F2731E86D929000417DE /* QuickSort.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F122F2711E86D929000417DE /* QuickSort.cpp */; };
 		F143157A1E60C61A00D3A889 /* RandomClass.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F14315781E60C61A00D3A889 /* RandomClass.cpp */; };
 		F143157D1E60CA3200D3A889 /* Points.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F143157B1E60CA3200D3A889 /* Points.cpp */; };
 		F16241CD1E5AD7F30087E711 /* main.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F16241CC1E5AD7F30087E711 /* main.cpp */; };
@@ -34,6 +35,8 @@
 /* Begin PBXFileReference section */
 		F11EB4AB1E85818C000EE6A5 /* KDTreeNode.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = KDTreeNode.cpp; sourceTree = "<group>"; };
 		F11EB4AC1E85818C000EE6A5 /* KDTreeNode.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = KDTreeNode.hpp; sourceTree = "<group>"; };
+		F122F2711E86D929000417DE /* QuickSort.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = QuickSort.cpp; sourceTree = "<group>"; };
+		F122F2721E86D929000417DE /* QuickSort.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = QuickSort.hpp; sourceTree = "<group>"; };
 		F14315781E60C61A00D3A889 /* RandomClass.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = RandomClass.cpp; sourceTree = "<group>"; };
 		F14315791E60C61A00D3A889 /* RandomClass.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = RandomClass.hpp; sourceTree = "<group>"; };
 		F143157B1E60CA3200D3A889 /* Points.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Points.cpp; sourceTree = "<group>"; };
@@ -113,6 +116,8 @@
 				F16241ED1E5AECC30087E711 /* shader */,
 				F16241CC1E5AD7F30087E711 /* main.cpp */,
 				F1A26C331E81DFBC00A4E689 /* test_kd_tree.cpp */,
+				F122F2711E86D929000417DE /* QuickSort.cpp */,
+				F122F2721E86D929000417DE /* QuickSort.hpp */,
 				F143157E1E60CB0800D3A889 /* source */,
 				F143157F1E60CB1100D3A889 /* header */,
 			);
@@ -198,6 +203,7 @@
 				F143157D1E60CA3200D3A889 /* Points.cpp in Sources */,
 				F143157A1E60C61A00D3A889 /* RandomClass.cpp in Sources */,
 				F1A26C341E81DFBC00A4E689 /* test_kd_tree.cpp in Sources */,
+				F122F2731E86D929000417DE /* QuickSort.cpp in Sources */,
 				F11EB4AD1E85818C000EE6A5 /* KDTreeNode.cpp in Sources */,
 				F18B3A081E7DAB4400682197 /* OpenGLHelper.cpp in Sources */,
 				F1A26C321E806D6200A4E689 /* KDTree.cpp in Sources */,
