@@ -150,7 +150,7 @@ void KDTree::build(std::vector<glm::vec2> v_points, bool is_debug) {
     } else if (build_algorithm == BUILD_RECURSIVE) {
         buildRecursive(1, v_points);
     } else {
-        //
+        buildRecursiveFast(1, v_points, 0, v_points.size() - 1 );
     }
     
     if (is_debug) {
@@ -227,6 +227,28 @@ void KDTree::buildRecursive(int idx, std::vector<glm::vec2> points)
     kd_tree[idx].isEmpty = false;
     kd_tree[idx].p.x = points[m].x;
     kd_tree[idx].p.y = points[m].y;
+    kd_tree[idx].setRGBA();
+    
+}
+
+
+void KDTree::buildRecursiveFast(int idx, std::vector<glm::vec2> pnts, int left, int right)
+{
+    int m = (left+right)>>1;
+    QuickSelect q;
+    if( (right-left) >= 2 ){
+        
+        q.sort(pnts, kd_tree[idx].dim, left, right-1, m);
+        
+        buildRecursiveFast( (idx<<1),   pnts, left, m );
+        buildRecursiveFast( (idx<<1)+1, pnts, m, right);
+    } else {
+        kd_tree[idx].isLeaf = true; // mark as leaf
+    }
+    
+    kd_tree[idx].p.x = pnts[m].x;
+    kd_tree[idx].p.y = pnts[m].y;
+    kd_tree[idx].isEmpty = false;
     kd_tree[idx].setRGBA();
     
 }
