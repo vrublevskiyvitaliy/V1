@@ -24,6 +24,13 @@
 
 
 class KDTree {
+public:
+    
+    static const int BUILD_ITERATIVE = 0;
+    static const int BUILD_RECURSIVE = 1;
+    static const int BUILD_RECURSIVE_FAST = 2;
+private:
+    
     int num_nodes = 0;
     int num_point = 0;
     
@@ -35,13 +42,10 @@ class KDTree {
     Points * p = NULL;
     
     int build_algorithm = BUILD_ITERATIVE;
+    
 public:
     
-    static const int BUILD_ITERATIVE = 0;
-    static const int BUILD_RECURSIVE = 1;
-    static const int BUILD_RECURSIVE_FAST = 2;
-
-    KDTreeNode * kd_tree = NULL;    // Int32Array: view for saving values
+    KDTreeNode * kd_tree = NULL;
     
     KDTree(int n = 4, int _build_algorithm = BUILD_ITERATIVE);
     ~KDTree();
