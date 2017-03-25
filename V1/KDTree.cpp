@@ -101,27 +101,6 @@ void KDTree::initKdTree(unsigned long num_points) {
     }
 }
 
-/*
- KdTree.prototype.build([new Point(CTX, 1, 1, 1, 0, 0), new Point(CTX, 2, 2, 2, 0, 0), new Point(CTX, 3, 3, 3, 0, 0), new Point(CTX, 4, 0, 0, 0, 0) ], true)
- 
- 
- 
- KdTree.prototype.quick_sort = new Quicksort();
- 
- 
-KdTree.prototype.quick_select = new QuickSelect();
- 
- 
- tree[1]           dim=0  [P,L,R]=[0,2,3]  pnt=[2.00,2.00]  code=1310740
- KdTree.js:242 tree[2]           dim=1  [P,L,R]=[1,4,5]  pnt=[1.00,1.00]  code=688138
- KdTree.js:242 tree[3]           dim=1  [P,L,R]=[1,6,7]  pnt=[3.00,3.00]  code=1998878
- KdTree.js:242 tree[4]  -> LEAF  dim=0  [P,L,R]=[2,8,9]  pnt=[0.00,0.00]  code=-2147483648
- KdTree.js:242 tree[5]  -> LEAF  dim=0  [P,L,R]=[2,10,11]  pnt=[1.00,1.00]  code=-2146828278
- KdTree.js:242 tree[6]  -> LEAF  dim=0  [P,L,R]=[3,12,13]  pnt=[2.00,2.00]  code=-2146172908
- KdTree.js:242 tree[7]  -> LEAF  dim=0  [P,L,R]=[3,14,15]  pnt=[3.00,3.00]  code=-2145517538
- 
- */
-
 
 void KDTree::printTree() {
     for(int i = 0; i < num_nodes; i++) {
