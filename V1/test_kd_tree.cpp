@@ -15,11 +15,17 @@
 using namespace std;
 
 #include "QuickSort.hpp"
+#include "QuickSelect.hpp"
+
 
 int __main()
 {
-    QuickSort::testQuickSort(5, 0);
- /*
+    //QuickSort::testQuickSort(5, 0);
+    
+    //QuickSelect q;
+    //q.testSort(6, 0);
+ 
+    /*
     KDTree tree(4);
     tree.setData();
     
