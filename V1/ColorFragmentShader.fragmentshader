@@ -4,6 +4,7 @@
 varying vec3 ourFragmentPosition;
 
 uniform sampler2D texture;
+uniform float numberOfPoints;
 
 // Bit-Shifting
 #define SHIFT_15 0x8000
@@ -161,8 +162,11 @@ void main(void) {
     NN nn = NN(vec2(ourFragmentPosition.x, ourFragmentPosition.y), 50000000.0, 1); // init nearest neighbor values
     getNearestNeighbor(nn);              // kd-tree nearest neighbor search
 
-    gl_FragColor = vec4(0, 0, nn.dis, 1. );
     vec4 color;
+    float colorCoef = max(1., numberOfPoints / 100);
+    
+    color = vec4(0, nn.dis * colorCoef, 0, 1. );
+
     // todo: add to current texture color data for displaing
     //if (nn.dis < 0.01) {
     //    color = vec4(1,0,0,1);
@@ -170,5 +174,5 @@ void main(void) {
     //    color = vec4(nn.parent / 80., nn.parent / 80., nn.parent / 80., 1);
     //}
     
-    //gl_FragColor = color;
+    gl_FragColor = color;
 }

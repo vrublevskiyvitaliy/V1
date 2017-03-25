@@ -43,7 +43,6 @@ public:
 
     void passTextureToShader(int n, std::vector<float> data);
     
-    
     void registerLoop();
     void FPSCounter();
     void loopTime();
@@ -53,6 +52,8 @@ public:
     void drawInLoop(GLFWwindow* window);
     
     void passKDTreeSizeToShader(int n);
+    void passNumberOfPointsToShader(int n);
+    
     
     ~OpenGLHelper();
 };

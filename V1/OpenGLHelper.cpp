@@ -150,6 +150,10 @@ void OpenGLHelper::passKDTreeSizeToShader(int n) {
     glUniform2f(glGetUniformLocation(programID, "KDTREE_SIZE"), double(n), 1.);
 }
 
+void OpenGLHelper::passNumberOfPointsToShader(int n) {
+    glUniform1f(glGetUniformLocation(programID, "numberOfPoints"), double(n));
+}
+
 
 bool OpenGLHelper::initGLFWWindow(GLFWwindow * & window)
 {
