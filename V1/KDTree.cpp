@@ -8,10 +8,21 @@
 
 #include "KDTree.hpp"
 
-KDTree::KDTree(int n) {
+KDTree::KDTree(int n, int _build_algorithm) {
     p = new Points(n);
     num_point = n;
+    build_algorithm = _build_algorithm;
     
+    printf("Number of points = %d\n", num_point);
+    
+    if (build_algorithm == BUILD_ITERATIVE) {
+        printf("BUILD_ITERATIVE\n");
+    } else if (build_algorithm == BUILD_RECURSIVE) {
+        printf("BUILD_RECURSIVE\n");
+    } else {
+        printf("BUILD_RECURSIVE_FAST\n");
+    }
+
     initKdTree(num_point);
 }
 
@@ -21,6 +32,11 @@ void KDTree::setData()
     p->applyMove();
     std::vector<glm::vec2> points = p->getPointsPositions();
     
+    build(points, false);
+}
+
+void KDTree::setData(std::vector<glm::vec2> points)
+{
     build(points, false);
 }
 
@@ -129,8 +145,15 @@ void KDTree::printTree() {
 void KDTree::build(std::vector<glm::vec2> v_points, bool is_debug) {
     
     //this.buildRecursiveFast(1, spoints, 0, number_points-1 );
-    buildIterative(v_points);
-    if(is_debug){
+    if (build_algorithm == BUILD_ITERATIVE) {
+        buildIterative(v_points);
+    } else if (build_algorithm == BUILD_RECURSIVE) {
+        buildRecursive(1, v_points);
+    } else {
+        //
+    }
+    
+    if (is_debug) {
         printTree();
     }
 }
@@ -185,7 +208,28 @@ int KDTree::getNumNodes() {
     return num_nodes;
 }
 
-
+void KDTree::buildRecursive(int idx, std::vector<glm::vec2> points)
+{
+    
+    unsigned long e = points.size();
+    int m = e >> 1;
+    if (e > 1) {
+        QuickSort::sort(points, kd_tree[idx].dim);
+        std::vector<glm::vec2> points_left = std::vector<glm::vec2> (points.begin(), points.begin() + m);
+        std::vector<glm::vec2> points_right = std::vector<glm::vec2> (points.begin() + m, points.end());
+        
+        buildRecursive( (idx<<1), points_left );
+        buildRecursive( (idx<<1)+1, points_right );
+    } else {
+        kd_tree[idx].isLeaf= true; // mark as leaf
+    }
+    
+    kd_tree[idx].isEmpty = false;
+    kd_tree[idx].p.x = points[m].x;
+    kd_tree[idx].p.y = points[m].y;
+    kd_tree[idx].setRGBA();
+    
+}
 
 
 
