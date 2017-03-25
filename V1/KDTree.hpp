@@ -42,7 +42,6 @@ private:
     Points * p = NULL;
     
     int build_algorithm = BUILD_ITERATIVE;
-    
 public:
     
     KDTreeNode * kd_tree = NULL;
@@ -63,11 +62,11 @@ public:
     void initKdTree(unsigned long num_points);
     void printTree();
     
-    void build(std::vector<glm::vec2> v_points, bool is_debug = true);
+    void build(std::vector<glm::vec2> & v_points, bool is_debug = true);
     
-    void buildIterative(std::vector<glm::vec2> v_points);
-    void buildRecursive(int idx, std::vector<glm::vec2> points);
-    void buildRecursiveFast(int idx, std::vector<glm::vec2> pnts, int left, int right);
+    void buildIterative(std::vector<glm::vec2> & v_points);
+    void buildRecursive(int idx, std::vector<glm::vec2> & points);
+    void buildRecursiveFast(int idx, std::vector<glm::vec2> & pnts, int left, int right);
     
 };
 
