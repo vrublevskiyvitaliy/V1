@@ -25,18 +25,18 @@ int __main()
     //QuickSelect q;
     //q.testSort(6, 0);
  
-    /*
-    KDTree tree(4);
-    tree.setData();
-    
     int n = 4;
+    std::vector<glm::vec2> points(n);
     
-    std::vector<Point> points(n);
     for (int i = 0; i < n; i++) {
         points[i].x = (i + 1) * 0.3 - 1;
         points[i].y = (i + 1) * 0.3 - 1;
     }
-    */
+    
+    KDTree tree(n);
+    
+    tree.setData(points);
+    
     /*
      tree[0]  null
      tree[1]           dim=0  [P,L,R]=[0,2,3]  pnt=[-0.10,-0.10]

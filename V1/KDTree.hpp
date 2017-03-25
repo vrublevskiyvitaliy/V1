@@ -17,6 +17,8 @@
 
 #include "Points.hpp"
 #include "KDTreeNode.hpp"
+#include "QuickSort.hpp"
+#include "QuickSelect.hpp"
 
 #include <glm/glm.hpp>
 
@@ -31,13 +33,21 @@ class KDTree {
     
     void free_data();
     Points * p = NULL;
+    
+    int build_algorithm = BUILD_ITERATIVE;
 public:
     
+    static const int BUILD_ITERATIVE = 0;
+    static const int BUILD_RECURSIVE = 1;
+    static const int BUILD_RECURSIVE_FAST = 2;
+
     KDTreeNode * kd_tree = NULL;    // Int32Array: view for saving values
     
-    KDTree(int n = 4);
+    KDTree(int n = 4, int _build_algorithm = BUILD_ITERATIVE);
     ~KDTree();
     void setData();
+    void setData(std::vector<glm::vec2> points);
+    
     std::vector<float> getData();
     int getNumNodes();
     
@@ -50,9 +60,10 @@ public:
     void printTree();
     
     void build(std::vector<glm::vec2> v_points, bool is_debug = true);
+    
     void buildIterative(std::vector<glm::vec2> v_points);
-
-
+    void buildRecursive(int idx, std::vector<glm::vec2> points);
+    
 };
 
 

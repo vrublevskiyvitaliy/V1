@@ -41,7 +41,9 @@ int main( void )
         "ColorFragmentShader.fragmentshader"
     );
     
-    KDTree tree;
+    int numberOfPoints = 300;
+    KDTree tree(numberOfPoints, KDTree::BUILD_RECURSIVE);
+    //KDTree tree(numberOfPoints);
     
     double lastTimeTree = glfwGetTime();
     helper.initVertexBuffer();
