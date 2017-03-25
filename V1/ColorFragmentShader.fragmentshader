@@ -161,13 +161,14 @@ void main(void) {
     NN nn = NN(vec2(ourFragmentPosition.x, ourFragmentPosition.y), 50000000.0, 1); // init nearest neighbor values
     getNearestNeighbor(nn);              // kd-tree nearest neighbor search
 
-    gl_FragColor = vec4(nn.dis , 0, 0, 1. );
+    gl_FragColor = vec4(0, 0, nn.dis, 1. );
     vec4 color;
-    if (nn.dis < 0.01) {
-        color = vec4(1,0,0,1);
-    } else {
-        color = vec4(nn.parent / 10., nn.parent / 10., nn.parent / 10., 1);
-    }
+    // todo: add to current texture color data for displaing
+    //if (nn.dis < 0.01) {
+    //    color = vec4(1,0,0,1);
+    //} else {
+    //    color = vec4(nn.parent / 80., nn.parent / 80., nn.parent / 80., 1);
+    //}
     
     //gl_FragColor = color;
 }
