@@ -28,7 +28,6 @@ KDTree::KDTree(int n, int _build_algorithm) {
 
 void KDTree::setData()
 {
-    //free_data();
     p->applyMove();
     std::vector<glm::vec2> points = p->getPointsPositions();
     
@@ -121,9 +120,8 @@ void KDTree::printTree() {
     }
 }
 
-void KDTree::build(std::vector<glm::vec2> v_points, bool is_debug) {
+void KDTree::build(std::vector<glm::vec2> & v_points, bool is_debug) {
     
-    //this.buildRecursiveFast(1, spoints, 0, number_points-1 );
     if (build_algorithm == BUILD_ITERATIVE) {
         buildIterative(v_points);
     } else if (build_algorithm == BUILD_RECURSIVE) {
@@ -141,7 +139,7 @@ void KDTree::build(std::vector<glm::vec2> v_points, bool is_debug) {
 bool sort_x (glm::vec2 i, glm::vec2 j) { return (i.x < j.x); }
 bool sort_y (glm::vec2 i, glm::vec2 j) { return (i.y < j.y); }
 
-void KDTree::buildIterative(std::vector<glm::vec2> v_points) {
+void KDTree::buildIterative(std::vector<glm::vec2> & v_points) {
     int ptr_T = 0; // tree pointer for compressed tree-nodes (integer)
     int ptr_P = 1; // stack pointer for point-sets
     
@@ -187,7 +185,7 @@ int KDTree::getNumNodes() {
     return num_nodes;
 }
 
-void KDTree::buildRecursive(int idx, std::vector<glm::vec2> points)
+void KDTree::buildRecursive(int idx, std::vector<glm::vec2> & points)
 {
     
     unsigned long e = points.size();
@@ -211,7 +209,7 @@ void KDTree::buildRecursive(int idx, std::vector<glm::vec2> points)
 }
 
 
-void KDTree::buildRecursiveFast(int idx, std::vector<glm::vec2> pnts, int left, int right)
+void KDTree::buildRecursiveFast(int idx, std::vector<glm::vec2> & pnts, int left, int right)
 {
     int m = (left+right)>>1;
     QuickSelect q;
@@ -219,16 +217,23 @@ void KDTree::buildRecursiveFast(int idx, std::vector<glm::vec2> pnts, int left, 
         
         q.sort(pnts, kd_tree[idx].dim, left, right-1, m);
         
+        // it is necessary to make it here, not below
+        // because buildRecursiveFast is modifing pnts also
+        kd_tree[idx].p.x = pnts[m].x;
+        kd_tree[idx].p.y = pnts[m].y;
+        kd_tree[idx].isEmpty = false;
+        kd_tree[idx].setRGBA();
+
         buildRecursiveFast( (idx<<1),   pnts, left, m );
         buildRecursiveFast( (idx<<1)+1, pnts, m, right);
     } else {
         kd_tree[idx].isLeaf = true; // mark as leaf
+        
+        kd_tree[idx].p.x = pnts[m].x;
+        kd_tree[idx].p.y = pnts[m].y;
+        kd_tree[idx].isEmpty = false;
+        kd_tree[idx].setRGBA();
     }
-    
-    kd_tree[idx].p.x = pnts[m].x;
-    kd_tree[idx].p.y = pnts[m].y;
-    kd_tree[idx].isEmpty = false;
-    kd_tree[idx].setRGBA();
     
 }
 
