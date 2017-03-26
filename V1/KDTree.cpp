@@ -8,10 +8,13 @@
 
 #include "KDTree.hpp"
 
-KDTree::KDTree(int n, int _build_algorithm) {
-    p = new Points(n);
+KDTree::KDTree(int n, int _build_algorithm, OpenGLHelper * _helper) {
+    
     num_point = n;
     build_algorithm = _build_algorithm;
+    helper = _helper;
+    
+    p = new Points(n, helper);
     
     printf("Number of points = %d\n", num_point);
     

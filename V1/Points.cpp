@@ -8,10 +8,12 @@
 
 #include "Points.hpp"
 
-Points::Points(int number) {
+Points::Points(int number, OpenGLHelper * _openGLHelper) {
     numberOfPoints = number > 0
         ? number
         : DEFAULT_POINTS_NUMBER;
+    
+    openGLHelper = _openGLHelper;
     
     pointsPositions = std::vector<glm::vec2>(numberOfPoints);
     pointsMoves = std::vector<glm::vec2>(numberOfPoints);

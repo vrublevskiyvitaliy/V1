@@ -19,6 +19,7 @@
 #include "KDTreeNode.hpp"
 #include "QuickSort.hpp"
 #include "QuickSelect.hpp"
+#include "OpenGLHelper.hpp"
 
 #include <glm/glm.hpp>
 
@@ -42,11 +43,13 @@ private:
     Points * p = NULL;
     
     int build_algorithm = BUILD_ITERATIVE;
+    
+    OpenGLHelper * helper;
 public:
     
     KDTreeNode * kd_tree = NULL;
     
-    KDTree(int n = 4, int _build_algorithm = BUILD_ITERATIVE);
+    KDTree(int n = 4, int _build_algorithm = BUILD_ITERATIVE, OpenGLHelper * _helper = NULL);
     ~KDTree();
     void setData();
     void setData(std::vector<glm::vec2> points);

@@ -43,7 +43,7 @@ int main( void )
     );
     
     int numberOfPoints = 20;
-    KDTree tree(numberOfPoints, KDTree::BUILD_RECURSIVE_FAST);
+    KDTree tree(numberOfPoints, KDTree::BUILD_RECURSIVE_FAST, &helper);
     
     double lastTimeTree = glfwGetTime();
     helper.initVertexBuffer();

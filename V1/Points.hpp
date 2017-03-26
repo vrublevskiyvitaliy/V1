@@ -13,6 +13,7 @@
 #include <vector>
 #include <glm/glm.hpp>
 
+#include "OpenGLHelper.hpp"
 #include "RandomClass.hpp"
 
 class Points{
@@ -30,9 +31,12 @@ class Points{
     std::vector<glm::vec2> pointsPositions;
     std::vector<glm::vec2> pointsMoves;
     std::vector<glm::vec3> pointsColors;
+    
+    OpenGLHelper * openGLHelper;
+    
 public:
     
-    Points(int number);
+    Points(int number, OpenGLHelper * _openGLHelper = NULL);
     void applyMove();
     void updateMoves();
     int getNumberOfPoints();
