@@ -28,12 +28,13 @@ const bool printLoopTime = false;
 
 int main( void )
 {
+    OpenGLHelper helper(printFPS, printLoopTime);
+
     
-    if (!OpenGLHelper::initGLFWWindow(window)) {
+    if (!helper.initGLFWWindow(window)) {
         return 1;
     }
     
-    OpenGLHelper helper(printFPS, printLoopTime);
 
     // Create and compile our GLSL program from the shaders
     GLuint programID = helper.loadShaders(
@@ -41,7 +42,7 @@ int main( void )
         "ColorFragmentShader.fragmentshader"
     );
     
-    int numberOfPoints = 4000;
+    int numberOfPoints = 20;
     KDTree tree(numberOfPoints, KDTree::BUILD_RECURSIVE_FAST);
     
     double lastTimeTree = glfwGetTime();
@@ -69,7 +70,7 @@ int main( void )
         helper.passNumberOfPointsToShader(numberOfPoints);
         helper.passKDTreeSizeToShader(n);
         
-        helper.drawInLoop(window);
+        helper.drawInLoop();
 
     } // Check if the ESC key was pressed or the window was closed
     while( glfwGetKey(window, GLFW_KEY_ESCAPE ) != GLFW_PRESS &&
