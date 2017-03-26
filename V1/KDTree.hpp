@@ -45,11 +45,12 @@ private:
     int build_algorithm = BUILD_ITERATIVE;
     
     OpenGLHelper * helper;
+    bool useMouse;
 public:
     
     KDTreeNode * kd_tree = NULL;
     
-    KDTree(int n = 4, int _build_algorithm = BUILD_ITERATIVE, OpenGLHelper * _helper = NULL);
+    KDTree(int n = 4, int _build_algorithm = BUILD_ITERATIVE, OpenGLHelper * _helper = NULL, bool _useMouse = false);
     ~KDTree();
     void setData();
     void setData(std::vector<glm::vec2> points);

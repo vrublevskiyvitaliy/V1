@@ -22,7 +22,7 @@ using namespace glm;
 #include "OpenGLHelper.hpp"
 #include "KDTree.hpp"
 
-const bool useMouse = false;
+const bool useMouse = true;
 const bool printFPS = true;
 const bool printLoopTime = false;
 
@@ -41,13 +41,11 @@ int main( void )
         "ColorFragmentShader.fragmentshader"
     );
     
-    int numberOfPoints = 300;
-    KDTree tree(numberOfPoints, KDTree::BUILD_RECURSIVE_FAST, &helper);
+    int numberOfPoints = 20;
+    KDTree tree(numberOfPoints, KDTree::BUILD_RECURSIVE_FAST, &helper, useMouse);
     
     double lastTimeTree = glfwGetTime();
     helper.initVertexBuffer();
-
-    
     
     do{
         helper.registerLoop();
