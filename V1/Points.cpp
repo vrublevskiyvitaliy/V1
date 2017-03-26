@@ -8,13 +8,12 @@
 
 #include "Points.hpp"
 
-Points::Points(int number, OpenGLHelper * _openGLHelper, bool _useMouse) {
+Points::Points(int number, OpenGLHelper * _openGLHelper) {
     numberOfPoints = number > 0
         ? number
         : DEFAULT_POINTS_NUMBER;
     
     openGLHelper = _openGLHelper;
-    useMouse = _useMouse;
     
     pointsPositions = std::vector<glm::vec2>(numberOfPoints);
     pointsMoves = std::vector<glm::vec2>(numberOfPoints);
@@ -51,7 +50,7 @@ int Points::getNumberOfPoints() {
     return numberOfPoints;
 }
 
-void Points::applyMove() {
+void Points::applyMove(bool useMouse) {
     float px, py, dx, dy;
     
     glm::vec3 mouse = openGLHelper->getMousePosition();
@@ -75,8 +74,8 @@ void Points::applyMove() {
             
             float damp = -0.01/(d_sq);
             
-            px += dxm * damp * 0.5;
-            py += dym * damp * 0.5;
+            px += dxm * damp * 0.2;
+            py += dym * damp * 0.2;
 
         }
         

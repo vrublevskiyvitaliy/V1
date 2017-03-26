@@ -22,7 +22,7 @@ using namespace glm;
 #include "OpenGLHelper.hpp"
 #include "KDTree.hpp"
 
-const bool useMouse = true;
+bool useMouse = true;
 const bool printFPS = true;
 const bool printLoopTime = false;
 
@@ -71,7 +71,12 @@ int main( void )
         helper.passKDTreeSizeToShader(n);
         
         helper.drawInLoop();
-
+        
+        if (glfwGetKey(window, GLFW_KEY_M) == GLFW_PRESS) {
+            useMouse = !useMouse;
+            tree.setUseMouse(useMouse);
+        }
+        
     } // Check if the ESC key was pressed or the window was closed
     while( glfwGetKey(window, GLFW_KEY_ESCAPE ) != GLFW_PRESS &&
           glfwWindowShouldClose(window) == 0 );

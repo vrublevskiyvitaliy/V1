@@ -36,8 +36,8 @@ class Points{
     
 public:
     
-    Points(int number, OpenGLHelper * _openGLHelper = NULL, bool _useMouse = false);
-    void applyMove();
+    Points(int number, OpenGLHelper * _openGLHelper = NULL);
+    void applyMove(bool useMouse);
     int getNumberOfPoints();
     
     std::vector<glm::vec2> getPointsPositions();

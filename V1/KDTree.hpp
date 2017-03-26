@@ -57,6 +57,9 @@ public:
     
     std::vector<float> getData();
     int getNumNodes();
+    void setUseMouse(bool _useMouse) {
+        useMouse = _useMouse;
+    }
     
     // get node indices for: Parent, Left-child, Right-child
     int get_p(int node_idx);
