@@ -29,7 +29,6 @@ const bool printLoopTime = false;
 int main( void )
 {
     OpenGLHelper helper(printFPS, printLoopTime);
-
     
     if (!helper.initGLFWWindow(window)) {
         return 1;
@@ -42,12 +41,14 @@ int main( void )
         "ColorFragmentShader.fragmentshader"
     );
     
-    int numberOfPoints = 20;
+    int numberOfPoints = 300;
     KDTree tree(numberOfPoints, KDTree::BUILD_RECURSIVE_FAST, &helper);
     
     double lastTimeTree = glfwGetTime();
     helper.initVertexBuffer();
 
+    
+    
     do{
         helper.registerLoop();
         
@@ -59,6 +60,7 @@ int main( void )
         
         double currentTimeTree = glfwGetTime();
         //printf("%f time for tree \n", currentTimeTree - lastTimeTree);
+
         
         // Clear the screen
         glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
