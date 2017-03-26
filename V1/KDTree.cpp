@@ -15,7 +15,7 @@ KDTree::KDTree(int n, int _build_algorithm, OpenGLHelper * _helper, bool _useMou
     helper = _helper;
     useMouse = _useMouse;
     
-    p = new Points(n, helper);
+    p = new Points(n, helper, useMouse);
     
     printf("Number of points = %d\n", num_point);
     

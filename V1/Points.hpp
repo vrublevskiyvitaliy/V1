@@ -32,10 +32,11 @@ class Points{
     std::vector<glm::vec3> pointsColors;
     
     OpenGLHelper * openGLHelper;
+    bool useMouse;
     
 public:
     
-    Points(int number, OpenGLHelper * _openGLHelper = NULL);
+    Points(int number, OpenGLHelper * _openGLHelper = NULL, bool _useMouse = false);
     void applyMove();
     int getNumberOfPoints();
     
