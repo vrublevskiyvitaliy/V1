@@ -22,18 +22,18 @@ using namespace glm;
 #include "OpenGLHelper.hpp"
 #include "KDTree.hpp"
 
-const bool useMouse = false;
+bool useMouse = true;
 const bool printFPS = true;
 const bool printLoopTime = false;
 
 int main( void )
 {
+    OpenGLHelper helper(printFPS, printLoopTime);
     
-    if (!OpenGLHelper::initGLFWWindow(window)) {
+    if (!helper.initGLFWWindow(window)) {
         return 1;
     }
     
-    OpenGLHelper helper(printFPS, printLoopTime);
 
     // Create and compile our GLSL program from the shaders
     GLuint programID = helper.loadShaders(
@@ -41,12 +41,12 @@ int main( void )
         "ColorFragmentShader.fragmentshader"
     );
     
-    int numberOfPoints = 4000;
-    KDTree tree(numberOfPoints, KDTree::BUILD_RECURSIVE_FAST);
+    int numberOfPoints = 100;
+    KDTree tree(numberOfPoints, KDTree::BUILD_RECURSIVE_FAST, &helper, useMouse);
     
     double lastTimeTree = glfwGetTime();
     helper.initVertexBuffer();
-
+    
     do{
         helper.registerLoop();
         
@@ -58,6 +58,7 @@ int main( void )
         
         double currentTimeTree = glfwGetTime();
         //printf("%f time for tree \n", currentTimeTree - lastTimeTree);
+
         
         // Clear the screen
         glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
@@ -69,8 +70,13 @@ int main( void )
         helper.passNumberOfPointsToShader(numberOfPoints);
         helper.passKDTreeSizeToShader(n);
         
-        helper.drawInLoop(window);
-
+        helper.drawInLoop();
+        
+        if (glfwGetKey(window, GLFW_KEY_M) == GLFW_PRESS) {
+            useMouse = !useMouse;
+            tree.setUseMouse(useMouse);
+        }
+        
     } // Check if the ESC key was pressed or the window was closed
     while( glfwGetKey(window, GLFW_KEY_ESCAPE ) != GLFW_PRESS &&
           glfwWindowShouldClose(window) == 0 );

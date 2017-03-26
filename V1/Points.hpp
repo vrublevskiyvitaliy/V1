@@ -13,6 +13,7 @@
 #include <vector>
 #include <glm/glm.hpp>
 
+#include "OpenGLHelper.hpp"
 #include "RandomClass.hpp"
 
 class Points{
@@ -22,7 +23,6 @@ class Points{
     
     const float upperBoundArea = 0.9;
     const float lowerBoundArea = -0.9;
-    int numberOfApliedMoves = 0;
     
     int numberOfPoints;
     Random random;
@@ -30,17 +30,21 @@ class Points{
     std::vector<glm::vec2> pointsPositions;
     std::vector<glm::vec2> pointsMoves;
     std::vector<glm::vec3> pointsColors;
+    
+    OpenGLHelper * openGLHelper;
+    bool useMouse;
+    
 public:
     
-    Points(int number);
-    void applyMove();
-    void updateMoves();
+    Points(int number, OpenGLHelper * _openGLHelper = NULL);
+    void applyMove(bool useMouse);
     int getNumberOfPoints();
+    
     std::vector<glm::vec2> getPointsPositions();
     std::vector<glm::vec2> getPointsMoves();
     std::vector<glm::vec3> getPointsColors();
+    
 private:
-    void updateIfOutOfArea();
     void initPoints();
 };
 

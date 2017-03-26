@@ -8,10 +8,14 @@
 
 #include "KDTree.hpp"
 
-KDTree::KDTree(int n, int _build_algorithm) {
-    p = new Points(n);
+KDTree::KDTree(int n, int _build_algorithm, OpenGLHelper * _helper, bool _useMouse) {
+    
     num_point = n;
     build_algorithm = _build_algorithm;
+    helper = _helper;
+    useMouse = _useMouse;
+    
+    p = new Points(n, helper);
     
     printf("Number of points = %d\n", num_point);
     
@@ -28,8 +32,14 @@ KDTree::KDTree(int n, int _build_algorithm) {
 
 void KDTree::setData()
 {
-    p->applyMove();
+    p->applyMove(useMouse);
     std::vector<glm::vec2> points = p->getPointsPositions();
+    
+    if (useMouse) {
+        glm::vec3 mousePosition = helper->getMousePosition();
+        points[0].x = mousePosition.x;
+        points[0].y = mousePosition.y;
+    }
     
     build(points, false);
 }

@@ -19,6 +19,7 @@
 #include "KDTreeNode.hpp"
 #include "QuickSort.hpp"
 #include "QuickSelect.hpp"
+#include "OpenGLHelper.hpp"
 
 #include <glm/glm.hpp>
 
@@ -42,17 +43,23 @@ private:
     Points * p = NULL;
     
     int build_algorithm = BUILD_ITERATIVE;
+    
+    OpenGLHelper * helper;
+    bool useMouse;
 public:
     
     KDTreeNode * kd_tree = NULL;
     
-    KDTree(int n = 4, int _build_algorithm = BUILD_ITERATIVE);
+    KDTree(int n = 4, int _build_algorithm = BUILD_ITERATIVE, OpenGLHelper * _helper = NULL, bool _useMouse = false);
     ~KDTree();
     void setData();
     void setData(std::vector<glm::vec2> points);
     
     std::vector<float> getData();
     int getNumNodes();
+    void setUseMouse(bool _useMouse) {
+        useMouse = _useMouse;
+    }
     
     // get node indices for: Parent, Left-child, Right-child
     int get_p(int node_idx);

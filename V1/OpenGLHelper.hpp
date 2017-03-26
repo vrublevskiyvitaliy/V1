@@ -35,10 +35,12 @@ class OpenGLHelper{
     
     GLuint programID;
     GLuint vertexbuffer;
+    
+    GLFWwindow * window;
 public:
     OpenGLHelper(bool _printFPS, bool _printLoopTime);
-    static glm::vec3 getMousePosition(GLFWwindow* window);
-    static bool initGLFWWindow(GLFWwindow * & window);
+    glm::vec3 getMousePosition();
+    bool initGLFWWindow(GLFWwindow * & _window);
     GLuint loadShaders(const char * vertex_file_path,const char * fragment_file_path);
 
     void passTextureToShader(int n, std::vector<float> data);
@@ -49,7 +51,7 @@ public:
     
     
     void initVertexBuffer();
-    void drawInLoop(GLFWwindow* window);
+    void drawInLoop();
     
     void passKDTreeSizeToShader(int n);
     void passNumberOfPointsToShader(int n);
