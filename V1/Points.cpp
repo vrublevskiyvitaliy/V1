@@ -72,10 +72,10 @@ void Points::applyMove(bool useMouse) {
             
             float d_sq = (dxm*dxm)+(dym*dym);
             
-            float damp = -0.01/(d_sq);
+            float damp = -0.0005 /(d_sq);
             
-            px += dxm * damp * 0.2;
-            py += dym * damp * 0.2;
+            px += dxm * damp ;
+            py += dym * damp ;
 
         }
         
