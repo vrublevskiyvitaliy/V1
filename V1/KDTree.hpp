@@ -56,6 +56,7 @@ public:
     void setData(std::vector<glm::vec2> points);
     
     std::vector<float> getData();
+    std::vector<float> getColorData();
     int getNumNodes();
     void setUseMouse(bool _useMouse) {
         useMouse = _useMouse;
@@ -69,11 +70,11 @@ public:
     void initKdTree(unsigned long num_points);
     void printTree();
     
-    void build(std::vector<glm::vec2> & v_points, bool is_debug = true);
+    void build(std::vector<glm::vec2> & v_points, std::vector<glm::vec3> & colors, bool is_debug = true);
     
     void buildIterative(std::vector<glm::vec2> & v_points);
     void buildRecursive(int idx, std::vector<glm::vec2> & points);
-    void buildRecursiveFast(int idx, std::vector<glm::vec2> & pnts, int left, int right);
+    void buildRecursiveFast(int idx, std::vector<glm::vec2> & pnts, int left, int right, std::vector<glm::vec3> & colors);
     
 };
 

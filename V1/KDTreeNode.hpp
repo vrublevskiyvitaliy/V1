@@ -33,6 +33,7 @@ struct KDTreeNode {
     bool isLeaf;
     bool isEmpty;
     float r,g,b,a;
+    glm::vec3 color;
     
     KDTreeNode();
     void setRGBA();

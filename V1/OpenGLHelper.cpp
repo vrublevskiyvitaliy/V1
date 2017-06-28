@@ -75,7 +75,7 @@ glm::vec3 OpenGLHelper::getMousePosition()
     return mouse;
 }
 
-void OpenGLHelper::passTextureToShader(int n, std::vector<float> data)
+void OpenGLHelper::passTextureToShader(int n, std::vector<float> data, std::vector<float> color)
 {
     GLuint vertexTexture;
     
@@ -91,6 +91,21 @@ void OpenGLHelper::passTextureToShader(int n, std::vector<float> data)
     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
     
     glUniform1i(glGetUniformLocation(programID, "texture"), 0);
+    
+    GLuint vertexTexture2;
+    
+    glGenTextures(1, &vertexTexture2);
+    glActiveTexture(GL_TEXTURE1);
+    glBindTexture(GL_TEXTURE_2D, vertexTexture2);
+    // todo: maybe find better solution than &data[0]
+    glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, n, 1, 0, GL_RGBA, GL_FLOAT, &color[0]);
+    
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
+    
+    glUniform1i(glGetUniformLocation(programID, "textureColor"), 1);
     
 }
 

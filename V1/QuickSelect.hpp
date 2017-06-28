@@ -25,13 +25,23 @@ public:
     // for all i < m points[i] < points[m]
     // for all i > m points[i] > points[m]
     void sort(std::vector<glm::vec2> & points, int _dim, int left, int right, int  m);
+    void sort(std::vector<glm::vec2> & points, std::vector<glm::vec3> & color, int _dim, int left, int right, int  m);
+    
     
     void quickfindFirstK(std::vector<glm::vec2> & points, int left, int right, int k);
+    void quickfindFirstK(std::vector<glm::vec2> & points, std::vector<glm::vec3> & color, int left, int right, int k);
+    
+    
+    int partitionX(std::vector<glm::vec2> & points, std::vector<glm::vec3> & color, int left, int right, int pivot_idx);
+    int partitionY(std::vector<glm::vec2> & points, std::vector<glm::vec3> & color, int left, int right, int pivot_idx);
+    
     
     int partitionX(std::vector<glm::vec2> & points, int left, int right, int pivot_idx);
     int partitionY(std::vector<glm::vec2> & points, int left, int right, int pivot_idx);
     
     void swapPoints(std::vector<glm::vec2> & points, int i, int j);
+    void swapPoints(std::vector<glm::vec2> & points, std::vector<glm::vec3> & color, int i, int j);
+    
     
     void testSort(int n, int dim);
 };

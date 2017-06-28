@@ -34,6 +34,7 @@ void KDTree::setData()
 {
     p->applyMove(useMouse);
     std::vector<glm::vec2> points = p->getPointsPositions();
+    std::vector<glm::vec3> colors = p->getPointsColors();
     
     if (useMouse) {
         glm::vec3 mousePosition = helper->getMousePosition();
@@ -41,12 +42,12 @@ void KDTree::setData()
         points[0].y = mousePosition.y;
     }
     
-    build(points, false);
+    build(points, colors, false);
 }
 
 void KDTree::setData(std::vector<glm::vec2> points)
 {
-    build(points, false);
+    //build(points, false);
 }
 
 std::vector<float> KDTree::getData() {
@@ -61,6 +62,20 @@ std::vector<float> KDTree::getData() {
     
     return data;
 }
+
+std::vector<float> KDTree::getColorData() {
+    std::vector<float> data(num_nodes * 4);
+    
+    for (int i = 0; i < num_nodes; i++) {
+        data[i*4] = kd_tree[i].color.x;
+        data[i*4 + 1] = kd_tree[i].color.y;
+        data[i*4 + 2] = kd_tree[i].color.z;
+        data[i*4 + 3] = 0;
+    }
+    
+    return data;
+}
+
 
 int KDTree::get_p(int node_idx) {
     return node_idx >> 1;
@@ -130,14 +145,14 @@ void KDTree::printTree() {
     }
 }
 
-void KDTree::build(std::vector<glm::vec2> & v_points, bool is_debug) {
+void KDTree::build(std::vector<glm::vec2> & v_points, std::vector<glm::vec3> & colors, bool is_debug) {
     
     if (build_algorithm == BUILD_ITERATIVE) {
         buildIterative(v_points);
     } else if (build_algorithm == BUILD_RECURSIVE) {
         buildRecursive(1, v_points);
     } else {
-        buildRecursiveFast(1, v_points, 0, v_points.size() - 1 );
+        buildRecursiveFast(1, v_points, 0, v_points.size() - 1, colors);
     }
     
     if (is_debug) {
@@ -219,13 +234,13 @@ void KDTree::buildRecursive(int idx, std::vector<glm::vec2> & points)
 }
 
 
-void KDTree::buildRecursiveFast(int idx, std::vector<glm::vec2> & pnts, int left, int right)
+void KDTree::buildRecursiveFast(int idx, std::vector<glm::vec2> & pnts, int left, int right, std::vector<glm::vec3> & colors)
 {
     int m = (left+right)>>1;
     QuickSelect q;
     if( (right-left) >= 2 ){
         
-        q.sort(pnts, kd_tree[idx].dim, left, right-1, m);
+        q.sort(pnts, colors, kd_tree[idx].dim, left, right-1, m);
         
         // it is necessary to make it here, not below
         // because buildRecursiveFast is modifing pnts also
@@ -233,9 +248,12 @@ void KDTree::buildRecursiveFast(int idx, std::vector<glm::vec2> & pnts, int left
         kd_tree[idx].p.y = pnts[m].y;
         kd_tree[idx].isEmpty = false;
         kd_tree[idx].setRGBA();
+        //kd_tree[idx].color = glm::vec3(fabs(pnts[m].x), fabs(pnts[m].y),(fabs(pnts[m].y) + fabs(pnts[m].x)) / 2);
+       // kd_tree[idx].color = glm::vec3(fabs(pnts[m].x), 0, 0);
 
-        buildRecursiveFast( (idx<<1),   pnts, left, m );
-        buildRecursiveFast( (idx<<1)+1, pnts, m, right);
+        kd_tree[idx].color = colors[m];
+        buildRecursiveFast( (idx<<1),   pnts, left, m, colors);
+        buildRecursiveFast( (idx<<1)+1, pnts, m, right, colors);
     } else {
         kd_tree[idx].isLeaf = true; // mark as leaf
         
@@ -243,6 +261,10 @@ void KDTree::buildRecursiveFast(int idx, std::vector<glm::vec2> & pnts, int left
         kd_tree[idx].p.y = pnts[m].y;
         kd_tree[idx].isEmpty = false;
         kd_tree[idx].setRGBA();
+        kd_tree[idx].color = colors[m];
+        //kd_tree[idx].color = glm::vec3(fabs(pnts[m].x), 0, 0);
+       // kd_tree[idx].color = glm::vec3(fabs(pnts[m].x), fabs(pnts[m].y),(fabs(pnts[m].y) + fabs(pnts[m].x)) / 2);
+        
     }
     
 }

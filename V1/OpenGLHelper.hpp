@@ -43,7 +43,7 @@ public:
     bool initGLFWWindow(GLFWwindow * & _window);
     GLuint loadShaders(const char * vertex_file_path,const char * fragment_file_path);
 
-    void passTextureToShader(int n, std::vector<float> data);
+    void passTextureToShader(int n, std::vector<float> data, std::vector<float> color);
     
     void registerLoop();
     void FPSCounter();

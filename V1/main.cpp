@@ -55,6 +55,7 @@ int main( void )
         tree.setData();
         int n = tree.getNumNodes();
         std::vector<float> v_data = tree.getData();
+        std::vector<float> v_color = tree.getColorData();
         
         double currentTimeTree = glfwGetTime();
         //printf("%f time for tree \n", currentTimeTree - lastTimeTree);
@@ -66,7 +67,7 @@ int main( void )
         // Use our shader
         glUseProgram(programID);
         
-        helper.passTextureToShader(n, v_data);
+        helper.passTextureToShader(n, v_data, v_color);
         helper.passNumberOfPointsToShader(numberOfPoints);
         helper.passKDTreeSizeToShader(n);
         
@@ -80,6 +81,6 @@ int main( void )
     } // Check if the ESC key was pressed or the window was closed
     while( glfwGetKey(window, GLFW_KEY_ESCAPE ) != GLFW_PRESS &&
           glfwWindowShouldClose(window) == 0 );
-    
+    std::cin >> numberOfPoints;
     return 0;
 }

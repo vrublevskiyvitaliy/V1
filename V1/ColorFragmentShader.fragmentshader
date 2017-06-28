@@ -4,6 +4,8 @@
 varying vec3 ourFragmentPosition;
 
 uniform sampler2D texture;
+uniform sampler2D textureColor;
+
 uniform float numberOfPoints;
 
 // Bit-Shifting
@@ -41,9 +43,14 @@ struct Node{      // Kd-Tree Node
 struct NN{    // Nearest Neighbor. (really just "dis" is needed!)
     vec2  pnt;  // pixel position, unnormalized!
     float dis;  // init Float.MAX_VALUE;
-    float parent;
+    int parent;
 };
 
+
+void getNodeColor(const int n_idx, inout vec4 color){
+    float index = n_idx;
+    color = texture2D(textureColor, vec2(index * KDTREE_SIZE_INV.x, 1));
+}
 
 void getNode(const int n_idx, inout Node node){
     int MAX_NUMBER = 16384;
@@ -87,8 +94,6 @@ void getNode(const int n_idx, inout Node node){
     node.pnt   = vec2(sign_x * x,sign_y * y);
     node.index = n_idx;
 }
-
-
 
 void updateMinDis(inout NN nn, const Node node) {
     float tmp = distance(node.pnt, nn.pnt);
@@ -168,11 +173,14 @@ void main(void) {
     color = vec4(0, nn.dis * colorCoef, 0, 1. );
 
     // todo: add to current texture color data for displaing
-    //if (nn.dis < 0.01) {
-    //    color = vec4(1,0,0,1);
-    //} else {
-    //    color = vec4(nn.parent / 80., nn.parent / 80., nn.parent / 80., 1);
-    //}
+    if (nn.dis < 0.01) {
+        color = vec4(1,0,0,1);
+    
+    } else {
+        //color =vec4(1,1,0,1);
+        getNodeColor(nn.parent, color);
+        //color = vec4(nn.parent / 80., nn.parent / 80., nn.parent / 80., 1);
+    }
     
     gl_FragColor = color;
 }
